@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Product } from 'src/contracts/product';
 import { HttpClientService } from 'src/services/common/http-client.service';
 
 @Component({
@@ -11,17 +10,12 @@ export class ProductsComponent implements OnInit {
   constructor(private httpClientService: HttpClientService) {}
 
   ngOnInit(): void {
-    this.httpClientService
-      .get<Product[]>({ controller: 'Products' })
-      .subscribe((data) => data.forEach((p) => console.log(p.stock)));
-
     /*this.httpClientService
       .post(
         { controller: 'Products' },
         { name: 'Kalem', stock: 100, price: 15 }
       )
       .subscribe();*/
-
     /*this.httpClientService
       .put(
         { controller: 'Products' },
@@ -33,7 +27,6 @@ export class ProductsComponent implements OnInit {
         }
       )
       .subscribe();*/
-
     /*this.httpClientService
       .delete(
         { controller: 'Products' },
