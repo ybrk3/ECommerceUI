@@ -9,6 +9,7 @@ import { ListComponent } from './list/list.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [ProductsComponent, CreateComponent, ListComponent],
@@ -19,6 +20,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
+    FormsModule,
+    ReactiveFormsModule,
   ],
 })
 export class ProductsModule {}
