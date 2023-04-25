@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Create_Product } from 'src/contracts/create_product';
 import {
@@ -15,6 +15,9 @@ import { ProductService } from 'src/services/common/models/product.service';
 })
 export class CreateComponent implements OnInit {
   frm: FormGroup;
+  @Output() createdProduct: EventEmitter<Create_Product> =
+    new EventEmitter<Create_Product>();
+
   constructor(
     private productService: ProductService,
     private alertify: AlertifyService,
@@ -37,16 +40,20 @@ export class CreateComponent implements OnInit {
 
     this.productService.create(
       create_Product,
-      this.alertify.message('Product Added', {
-        dismissOthers: true,
-        messageType: MessageType.Success,
-        position: Position.TopRight,
-      }),
+      () => {
+        this.alertify.message('Product Added', {
+          dismissOthers: true,
+          messageType: MessageType.Success,
+          position: Position.TopRight,
+        });
+        this.createdProduct.emit();
+      },
       (errorMessage) => {
         this.alertify.message(errorMessage, {
           dismissOthers: true,
           messageType: MessageType.Error,
           position: Position.TopRight,
+          delay: 10,
         });
       }
     );
