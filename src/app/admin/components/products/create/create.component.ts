@@ -47,6 +47,7 @@ export class CreateComponent implements OnInit {
           position: Position.TopRight,
         });
         this.createdProduct.emit();
+        this.frm.reset();
       },
       (errorMessage) => {
         this.alertify.message(errorMessage, {

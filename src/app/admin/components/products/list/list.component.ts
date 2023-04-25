@@ -21,9 +21,12 @@ export class ListComponent implements OnInit {
     'price',
     'createdDate',
     'updatedDate',
+    'edit',
+    'delete',
   ];
   dataSource: MatTableDataSource<List_Product> = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  appDelete: any;
 
   constructor(
     private productService: ProductService,
@@ -39,12 +42,7 @@ export class ListComponent implements OnInit {
       await this.productService.read(
         this.paginator ? this.paginator.pageIndex : 0,
         this.paginator ? this.paginator.pageSize : 5,
-        () =>
-          this.alertify.message('Products Listed', {
-            dismissOthers: true,
-            messageType: MessageType.Success,
-            position: Position.TopRight,
-          }),
+        () => {},
         (errorMessage) => {
           this.alertify.message(errorMessage, {
             dismissOthers: true,
