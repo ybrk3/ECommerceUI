@@ -6,6 +6,7 @@ import {
   MessageType,
   Position,
 } from 'src/services/admin/alertify.service';
+import { FileUploadOptions } from 'src/services/common/file-upload/file-upload.component';
 import { ProductService } from 'src/services/common/models/product.service';
 
 @Component({
@@ -15,8 +16,17 @@ import { ProductService } from 'src/services/common/models/product.service';
 })
 export class CreateComponent implements OnInit {
   frm: FormGroup;
-  @Output() createdProduct: EventEmitter<Create_Product> =
-    new EventEmitter<Create_Product>();
+
+  //Event to refresh the product list
+  @Output() createdProduct: EventEmitter<Create_Product> = new EventEmitter();
+  //Options for uploading files of product. Due to it's used in file-upload component it's output
+  @Output() fileUploadOptions: Partial<FileUploadOptions> = {
+    controller: 'Products',
+    action: 'upload',
+    explanation: 'Please upload the photos belongs to product',
+    isAdmin: true,
+    accept: '.png,.jpeg,.jpg',
+  };
 
   constructor(
     private productService: ProductService,

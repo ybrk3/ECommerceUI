@@ -20,7 +20,7 @@ export class ProductService {
     this.httpClientService
       .post({ controller: this.controller }, product)
       .subscribe({
-        complete: () => successCallBack(),
+        next: () => successCallBack(),
         error: (errorResponse: HttpErrorResponse) => {
           let message = '';
           const error: Array<{ key: string; value: Array<string> }> =
