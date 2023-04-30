@@ -19,6 +19,7 @@ import {
   MessageType,
   Position,
 } from 'src/services/admin/alertify.service';
+import { DialogService } from 'src/services/common/dialog.service';
 import { HttpClientService } from 'src/services/common/http-client.service';
 
 //to animation
@@ -33,7 +34,8 @@ export class DeleteDirective {
     private renderer: Renderer2, //to create DOM element
     private htttpClientservice: HttpClientService, //delete from db
     private dialog: MatDialog, //dialog
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private dialogService: DialogService //to define callback function and parameters of dialog box
   ) {
     //creating "img" element and set its attributes
     const img = renderer.createElement('img');
@@ -51,47 +53,44 @@ export class DeleteDirective {
 
   @HostListener('click')
   async onclick() {
-    this.openDialog(() => {
-      //set element's parent node to variable (td)
-      const td: HTMLTableCellElement = this.element.nativeElement;
-      //removing from db
-      this.htttpClientservice
-        .delete({ controller: this.controller }, this.id)
-        .subscribe(
-          (data) => {
-            //animation through removing the row (its parent node => th)
-            $(td.parentElement).animate(
-              { opacity: 0, left: '+=50', height: 'toogle' },
-              700,
-              () => {
-                this.onDelete.emit();
-                this.alertify.message('Successfully Deleted!', {
-                  dismissOthers: true,
-                  messageType: MessageType.Success,
-                  position: Position.TopRight,
-                });
-              }
-            );
-          },
-          (errorResponse: HttpErrorResponse) => {
-            this.alertify.message('An Error Occured. Please try again!', {
-              dismissOthers: true,
-              messageType: MessageType.Error,
-              position: Position.TopRight,
-            });
-          }
-        );
+    this.dialogService.openDialog({
+      component: DeleteDialogComponent,
+      data: DeleteState.Yes,
+      options: { width: '275px' },
+      afterClosed: async () => this.deleteElement(),
     });
   }
 
-  openDialog(afterClosed: any): void {
-    const dialogRef = this.dialog.open(DeleteDialogComponent, {
-      width: '250px',
-      data: DeleteState.Yes,
-    });
-
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === DeleteState.Yes) afterClosed();
-    });
+  //callback function to be executed after confirmation through dialog box
+  async deleteElement() {
+    //set element's parent node to variable (td)
+    const td: HTMLTableCellElement = this.element.nativeElement;
+    //removing from db
+    this.htttpClientservice
+      .delete({ controller: this.controller }, this.id)
+      .subscribe({
+        next: (data) => {
+          //animation through removing the row (its parent node => th)
+          $(td.parentElement).animate(
+            { opacity: 0, left: '+=50', height: 'toogle' },
+            700,
+            () => {
+              this.onDelete.emit();
+              this.alertify.message('Successfully Deleted!', {
+                dismissOthers: true,
+                messageType: MessageType.Success,
+                position: Position.TopRight,
+              });
+            }
+          );
+        },
+        error: (errorResponse: HttpErrorResponse) => {
+          this.alertify.message('An Error Occured. Please try again!', {
+            dismissOthers: true,
+            messageType: MessageType.Error,
+            position: Position.TopRight,
+          });
+        },
+      });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 import { HttpClientService } from '../http-client.service';
 import { HttpErrorResponse, HttpHeaders } from '@angular/common/http';
@@ -12,6 +12,11 @@ import {
   ToastrMessageType,
   ToastrPosition,
 } from 'src/services/ui/custom-toastr.service';
+import { DialogService } from '../dialog.service';
+import {
+  FileUploadDialogComponent,
+  FileUploadState,
+} from 'src/app/dialogs/file-upload-dialog/file-upload-dialog.component';
 
 @Component({
   selector: 'app-file-upload',
@@ -25,7 +30,8 @@ export class FileUploadComponent {
   constructor(
     private httpClientService: HttpClientService,
     private alertifyService: AlertifyService,
-    private customToastrService: CustomToastrService
+    private customToastrService: CustomToastrService,
+    private dialogService: DialogService
   ) {}
 
   //Selected Files
@@ -45,55 +51,65 @@ export class FileUploadComponent {
         fileData.append(_file.name, _file, file.relativePath);
       });
     }
-
-    //We are sending our FormDatas' to backend through HttpClientService post method
-    this.httpClientService
-      .post(
-        {
-          controller: this.options.controller,
-          action: this.options.action,
-          queryString: this.options.queryString,
-          //It is related to ngxFileDrop Document
-          headers: new HttpHeaders({ responseType: 'blob' }),
-        },
-        fileData //files to be uploaded
-      )
-      .subscribe({
-        next: (data) => {
-          const successMessage: string = 'Selected files uploaded successfully';
-          if (this.options.isAdmin) {
-            //For admin we are using alertify
-            this.alertifyService.message(successMessage, {
-              messageType: MessageType.Success,
-              dismissOthers: true,
-              position: Position.TopRight,
-            });
-          } else {
-            //For UI we are using toastr
-            this.customToastrService.message(successMessage, 'Successful !', {
-              messageType: ToastrMessageType.Succes,
-              position: ToastrPosition.TopRight,
-            });
-          }
-        },
-        error: (error: HttpErrorResponse) => {
-          const errorMessage: string = 'Sorry, Unexpected Error!';
-          if (this.options.isAdmin) {
-            this.alertifyService.message(errorMessage, {
-              messageType: MessageType.Error,
-              dismissOthers: true,
-              position: Position.TopCenter,
-            });
-          } else {
-            this.customToastrService.message(errorMessage, 'ERROR !', {
-              messageType: ToastrMessageType.Error,
-              position: ToastrPosition.TopCenter,
-            });
-          }
-          //To remove the selected files after facing an error
-          this.files.splice(0, this.files.length);
-        },
-      });
+    this.dialogService.openDialog({
+      component: FileUploadDialogComponent,
+      data: FileUploadState.Yes,
+      afterClosed: () => {
+        //We are sending our FormDatas' to backend through HttpClientService post method
+        this.httpClientService
+          .post(
+            {
+              controller: this.options.controller,
+              action: this.options.action,
+              queryString: this.options.queryString,
+              //It is related to ngxFileDrop Document
+              headers: new HttpHeaders({ responseType: 'blob' }),
+            },
+            fileData //files to be uploaded
+          )
+          .subscribe({
+            next: (data) => {
+              const successMessage: string =
+                'Selected files uploaded successfully';
+              if (this.options.isAdmin) {
+                //For admin we are using alertify service
+                this.alertifyService.message(successMessage, {
+                  messageType: MessageType.Success,
+                  dismissOthers: true,
+                  position: Position.TopRight,
+                });
+              } else {
+                //For UI we are using toastr service
+                this.customToastrService.message(
+                  successMessage,
+                  'Successful !',
+                  {
+                    messageType: ToastrMessageType.Succes,
+                    position: ToastrPosition.TopRight,
+                  }
+                );
+              }
+            },
+            error: (error: HttpErrorResponse) => {
+              const errorMessage: string = 'Sorry, Unexpected Error!';
+              if (this.options.isAdmin) {
+                this.alertifyService.message(errorMessage, {
+                  messageType: MessageType.Error,
+                  dismissOthers: true,
+                  position: Position.TopCenter,
+                });
+              } else {
+                this.customToastrService.message(errorMessage, 'ERROR !', {
+                  messageType: ToastrMessageType.Error,
+                  position: ToastrPosition.TopCenter,
+                });
+              }
+              //To remove the selected files after facing an error
+              this.files.splice(0, this.files.length);
+            },
+          });
+      },
+    });
   }
 }
 
