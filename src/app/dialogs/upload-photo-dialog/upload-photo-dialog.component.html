@@ -1,0 +1,19 @@
+<button (click)="dialogRef.close()">Close</button>
+<hr />
+<app-file-upload [options]="options"></app-file-upload>
+<hr />
+
+<mat-card class="product-image-card" *ngFor="let image of productImages">
+  <mat-card-header> </mat-card-header>
+  <img mat-card-image [src]="image.path" />
+  <mat-card-content> </mat-card-content>
+  <mat-card-actions>
+    <button
+      style="background-color: rgb(221, 73, 15); color: rgb(223, 217, 217)"
+      (click)="deleteImage(image.id, $event)"
+      mat-button
+    >
+      DELETE
+    </button>
+  </mat-card-actions>
+</mat-card>

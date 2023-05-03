@@ -29,6 +29,20 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="photo">
+      <th mat-header-cell *matHeaderCellDef width="20"></th>
+      <td mat-cell *matCellDef="let element">
+        <img
+          src="../../../../../assets/upload.png"
+          alt="edit"
+          height="25"
+          width="25"
+          style="cursor: pointer"
+          (click)="onPhotoUpload(element.id)"
+        />
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="edit">
       <th mat-header-cell *matHeaderCellDef width="20"></th>
       <td mat-cell *matCellDef="let element">
@@ -37,6 +51,7 @@
           alt="edit"
           height="25"
           width="25"
+          style="cursor: pointer"
         />
       </td>
     </ng-container>

@@ -1,12 +1,14 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { UploadPhotoDialogComponent } from 'src/app/dialogs/upload-photo-dialog/upload-photo-dialog.component';
 import { List_Product } from 'src/contracts/list_product';
 import {
   AlertifyService,
   MessageType,
   Position,
 } from 'src/services/admin/alertify.service';
+import { DialogService } from 'src/services/common/dialog.service';
 import { ProductService } from 'src/services/common/models/product.service';
 
 @Component({
@@ -21,6 +23,7 @@ export class ListComponent implements OnInit {
     'price',
     'createdDate',
     'updatedDate',
+    'photo',
     'edit',
     'delete',
   ];
@@ -30,7 +33,8 @@ export class ListComponent implements OnInit {
 
   constructor(
     private productService: ProductService,
-    private alertify: AlertifyService
+    private alertify: AlertifyService,
+    private dialogService: DialogService
   ) {}
 
   async ngOnInit() {
@@ -59,5 +63,14 @@ export class ListComponent implements OnInit {
   }
   async pageChanged() {
     await this.getProducts();
+  }
+  onPhotoUpload(id: string) {
+    this.dialogService.openDialog({
+      component: UploadPhotoDialogComponent,
+      data: id,
+      options: {
+        width: '1250px',
+      },
+    });
   }
 }
