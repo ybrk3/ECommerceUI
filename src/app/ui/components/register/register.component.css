@@ -1,0 +1,25 @@
+.error-text {
+  color: red;
+  font-style: italic;
+}
+input.ng-touched.ng-invalid {
+  border: 1px solid red;
+}
+.form-label {
+  font-weight: bold;
+  color: rgb(42, 151, 165);
+  margin-top: 10px;
+  margin-bottom: 1px;
+  font-family: monospace;
+}
+.form-text {
+  font-style: italic;
+  color: rgb(247, 102, 49);
+}
+.btn.btn-primary {
+  font-family: monospace;
+  color: whitesmoke;
+  font-weight: bold;
+  background-color: rgb(38, 124, 136);
+  border-color: aliceblue;
+}

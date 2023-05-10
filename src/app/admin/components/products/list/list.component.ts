@@ -61,8 +61,9 @@ export class ListComponent implements OnInit {
     );
     this.paginator.length = allProducts.totalCount;
   }
+
   async pageChanged() {
-    await this.getProducts();
+    await this.getProducts(); //page event
   }
   onPhotoUpload(id: string) {
     this.dialogService.openDialog({

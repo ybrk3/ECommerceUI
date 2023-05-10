@@ -1,0 +1,136 @@
+<div class="row">
+  <div class="col-md-3"></div>
+  <div class="col-md-6">
+    <form [formGroup]="registerForm" (ngSubmit)="onSubmit(registerForm.value)">
+      <div class="mb-3">
+        <label for="exampleInputEmail1" class="form-label">Name Surname</label>
+        <input
+          type="text"
+          class="form-control"
+          formControlName="name"
+          aria-describedby="emailHelp"
+        />
+        <div
+          class="error-text"
+          *ngIf="component.name.errors?.required && component.name.touched"
+        >
+          Please enter your name
+        </div>
+        <div
+          class="error-text"
+          *ngIf="
+            component.name.errors?.minlength ||
+            (component.name.errors?.maxlength && component.name.touched)
+          "
+        >
+          It must be a minimum of 4 and a maximum of 50 characters
+        </div>
+        <label for="exampleInputEmail1" class="form-label">Username</label>
+        <input
+          type="text"
+          class="form-control"
+          aria-describedby="emailHelp"
+          formControlName="username"
+        />
+        <div
+          class="error-text"
+          *ngIf="
+            component.username.errors?.required && component.username.touched
+          "
+        >
+          Please enter an username
+        </div>
+        <div
+          class="error-text"
+          *ngIf="
+            component.username.errors?.minlength && component.username.touched
+          "
+        >
+          Username must be at least 3 characters
+        </div>
+        <label for="exampleInputEmail1" class="form-label">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="exampleInputEmail1"
+          formControlName="email"
+          aria-describedby="emailHelp"
+        />
+        <div id="emailHelp" class="form-text">
+          We'll never share your email with anyone else.
+        </div>
+        <div
+          class="error-text"
+          *ngIf="component.email.errors?.required && component.email.touched"
+        >
+          Please enter your email
+        </div>
+        <div
+          class="error-text"
+          *ngIf="component.email.errors?.email && component.email.touched"
+        >
+          Please enter a valid email address <br />"xyz@xyz.com"
+        </div>
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputPassword1" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputPassword1"
+          formControlName="password"
+        />
+      </div>
+      <div
+        class="error-text"
+        *ngIf="component.password.errors?.pattern && component.password.touched"
+      >
+        Password must be consist of uppercase, special characters and numbers
+      </div>
+      <div
+        class="error-text"
+        *ngIf="
+          component.password.errors?.required && component.password.touched
+        "
+      >
+        Please enter a password
+      </div>
+      <div
+        class="error-text"
+        *ngIf="
+          component.password.errors?.minlength && component.password.touched
+        "
+      >
+        Password must be at least 6 characters
+      </div>
+      <div class="mb-3">
+        <label for="exampleInputConfirmPassword" class="form-label"
+          >Confirm Password</label
+        >
+        <input
+          type="password"
+          class="form-control"
+          id="exampleInputConfirmPassword"
+          formControlName="confirmPassword"
+        />
+      </div>
+
+      <div
+        class="error-text"
+        *ngIf="
+          registerForm.hasError('notSame') && component.confirmPassword.touched
+        "
+      >
+        Password not mathced
+      </div>
+
+      <button
+        type="submit"
+        class="btn btn-primary"
+        [disabled]="this.registerForm.invalid"
+      >
+        Sign Up
+      </button>
+    </form>
+  </div>
+</div>
