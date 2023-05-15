@@ -22,4 +22,5 @@ input.ng-touched.ng-invalid {
   font-weight: bold;
   background-color: rgb(38, 124, 136);
   border-color: aliceblue;
+  margin-top: 20px;
 }

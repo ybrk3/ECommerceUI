@@ -7,20 +7,24 @@
         <input
           type="text"
           class="form-control"
-          formControlName="name"
+          formControlName="nameSurname"
           aria-describedby="emailHelp"
         />
         <div
           class="error-text"
-          *ngIf="component.name.errors?.required && component.name.touched"
+          *ngIf="
+            component.nameSurname.errors?.required &&
+            component.nameSurname.touched
+          "
         >
           Please enter your name
         </div>
         <div
           class="error-text"
           *ngIf="
-            component.name.errors?.minlength ||
-            (component.name.errors?.maxlength && component.name.touched)
+            component.nameSurname.errors?.minlength ||
+            (component.nameSurname.errors?.maxlength &&
+              component.nameSurname.touched)
           "
         >
           It must be a minimum of 4 and a maximum of 50 characters
@@ -114,7 +118,6 @@
           formControlName="confirmPassword"
         />
       </div>
-
       <div
         class="error-text"
         *ngIf="
@@ -122,6 +125,15 @@
         "
       >
         Password not mathced
+      </div>
+      <div
+        class="error-text"
+        *ngIf="
+          component.confirmPassword.errors?.required &&
+          component.confirmPassword.touched
+        "
+      >
+        Please confirm your password
       </div>
 
       <button

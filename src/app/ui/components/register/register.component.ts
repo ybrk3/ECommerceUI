@@ -6,8 +6,15 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
-import { PasswordStrengthValidator } from 'src/Validators/PasswordStrengthValidator';
+import { Create_User } from 'src/contracts/users/create_user';
 import { User } from 'src/entities/user';
+import { Position } from 'src/services/admin/alertify.service';
+import { UserService } from 'src/services/common/models/user.service';
+import {
+  CustomToastrService,
+  ToastrMessageType,
+  ToastrPosition,
+} from 'src/services/ui/custom-toastr.service';
 
 @Component({
   selector: 'app-register',
@@ -16,10 +23,14 @@ import { User } from 'src/entities/user';
 })
 export class RegisterComponent implements OnInit {
   registerForm: FormGroup;
-  constructor(private formBuilder: FormBuilder) {
+  constructor(
+    private formBuilder: FormBuilder,
+    private userService: UserService,
+    private toastrService: CustomToastrService
+  ) {
     this.registerForm = formBuilder.group(
       {
-        name: [
+        nameSurname: [
           '',
           [
             Validators.required,
@@ -33,7 +44,6 @@ export class RegisterComponent implements OnInit {
           '',
           [
             Validators.required,
-            ,
             Validators.minLength(6),
             Validators.pattern(
               /(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[@$!%*#?&^_-]).{8,}/
@@ -59,7 +69,17 @@ export class RegisterComponent implements OnInit {
   get component() {
     return this.registerForm.controls;
   }
-  onSubmit(formData: User) {
-    console.log(formData);
+  async onSubmit(userData: User) {
+    const result: Create_User = await this.userService.create(userData);
+    if (result.succeeded)
+      this.toastrService.message(result.message, 'Succesful', {
+        messageType: ToastrMessageType.Succes,
+        position: ToastrPosition.TopCenter,
+      });
+    else
+      this.toastrService.message(result.message, 'Error', {
+        messageType: ToastrMessageType.Error,
+        position: ToastrPosition.TopCenter,
+      });
   }
 }
