@@ -18,18 +18,15 @@ export class LoginComponent implements OnInit {
     private socialAuthService: SocialAuthService
   ) {
     socialAuthService.authState.subscribe((user: SocialUser) => {
-      console.log(user);
-      userService.googleLogin(user),
-        () => {
-          this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
-
-          //if there is returnUrl, below will navigate the route there
-          this.activatedRoute.queryParams.subscribe((params) => {
-            const returnUrl: string = params['returnUrl'];
-            if (returnUrl) this.router.navigate([returnUrl]);
-            else this.router.navigate(['']);
-          });
-        };
+      userService.googleLogin(user, () => {
+        this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
+        //if there is returnUrl, below will navigate the route there
+        this.activatedRoute.queryParams.subscribe((params) => {
+          const returnUrl: string = params['returnUrl'];
+          if (returnUrl) this.router.navigate([returnUrl]);
+          else this.router.navigate(['']);
+        });
+      });
     });
   }
 

@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import {
   GoogleLoginProvider,
+  GoogleSigninButtonModule,
   SocialAuthServiceConfig,
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
@@ -35,6 +36,7 @@ import { LoginComponent } from './ui/components/login/login.component';
       },
     }),
     SocialLoginModule,
+    GoogleSigninButtonModule,
   ],
   providers: [
     { provide: 'baseUrl', useValue: 'https://localhost:7261/api', multi: true },

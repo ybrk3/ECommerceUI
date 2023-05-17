@@ -69,7 +69,7 @@ export class UserService {
     }
   }
 
-  async googleLogin(user: SocialUser, callBack?: () => void) {
+  async googleLogin(user: SocialUser, callBack?: () => any) {
     const observable: Observable<SocialUser | TokenResponse> =
       this.httpClientService.post<SocialUser | TokenResponse>(
         {
