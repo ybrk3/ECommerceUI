@@ -1,3 +1,4 @@
+import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MessageType, Position } from 'src/services/admin/alertify.service';
@@ -15,8 +16,13 @@ export class LoginComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private activatedRoute: ActivatedRoute,
-    private router: Router
-  ) {}
+    private router: Router,
+    private socialAuthService: SocialAuthService
+  ) {
+    this.socialAuthService.authState.subscribe((user: SocialUser) => {
+      console.log(user);
+    });
+  }
 
   ngOnInit(): void {}
 
