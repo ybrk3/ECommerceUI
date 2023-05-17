@@ -1,3 +1,13 @@
 .btn-outline-info {
   margin-right: 10px;
 }
+.btn-outline-warning {
+  margin-right: 10px;
+}
+.btn-danger {
+  margin-left: 10px;
+}
+.btn-link {
+  color: red;
+  font-style: italic;
+}

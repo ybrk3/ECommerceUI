@@ -47,18 +47,39 @@
                 [routerLink]="'register'"
                 type="button"
                 class="btn btn-outline-info"
+                *ngIf="!authService.isAuthenticated"
                 >Register</a
               >
             </li>
             <li routerLinkActive="active">
               <a
-                [routerLink]="'admin'"
+                [routerLink]="'login'"
                 type="button"
-                class="btn btn-outline-success"
-                >Admin Panel</a
+                class="btn btn-outline-warning"
+                *ngIf="!authService.isAuthenticated"
+                >Login</a
               >
             </li>
 
+            <li routerLinkActive="active">
+              <a
+                [routerLink]="'admin'"
+                type="button"
+                class="btn btn-outline-success btn-sm"
+                *ngIf="authService.isAuthenticated"
+                >Admin Panel</a
+              >
+            </li>
+            <li>
+              <a
+                type="button"
+                class="btn btn-link btn-sm"
+                (click)="signOut()"
+                *ngIf="authService.isAuthenticated"
+                >Sign out</a
+              >
+            </li>
+            <!--
             <li class="nav-item dropdown">
               <a
                 class="nav-link dropdown-toggle"
@@ -69,7 +90,7 @@
               >
                 Dropdown
               </a>
-              <ul class="dropdown-menu">
+             <ul class="dropdown-menu">
                 <li><a class="dropdown-item" href="#">Action</a></li>
                 <li><a class="dropdown-item" href="#">Another action</a></li>
                 <li><hr class="dropdown-divider" /></li>
@@ -80,7 +101,7 @@
             </li>
             <li class="nav-item">
               <a class="nav-link disabled">Disabled</a>
-            </li>
+            </li>-->
           </ul>
 
           <form class="d-flex" role="search">

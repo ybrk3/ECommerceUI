@@ -1,0 +1,10 @@
+.btn-primary {
+  margin-top: 10px;
+}
+.form-label {
+  font-weight: bold;
+  color: rgb(42, 151, 165);
+  margin-top: 10px;
+  margin-bottom: 1px;
+  font-family: monospace;
+}
