@@ -1,10 +1,8 @@
 import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MessageType, Position } from 'src/services/admin/alertify.service';
 import { AuthService } from 'src/services/common/auth.service';
 import { UserService } from 'src/services/common/models/user.service';
-import { CustomToastrService } from 'src/services/ui/custom-toastr.service';
 
 @Component({
   selector: 'app-login',
@@ -19,8 +17,19 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private socialAuthService: SocialAuthService
   ) {
-    this.socialAuthService.authState.subscribe((user: SocialUser) => {
+    socialAuthService.authState.subscribe((user: SocialUser) => {
       console.log(user);
+      userService.googleLogin(user),
+        () => {
+          this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
+
+          //if there is returnUrl, below will navigate the route there
+          this.activatedRoute.queryParams.subscribe((params) => {
+            const returnUrl: string = params['returnUrl'];
+            if (returnUrl) this.router.navigate([returnUrl]);
+            else this.router.navigate(['']);
+          });
+        };
     });
   }
 

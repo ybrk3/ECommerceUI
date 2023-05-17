@@ -12,6 +12,7 @@ import {
   ToastrPosition,
 } from 'src/services/ui/custom-toastr.service';
 import { MessageType, Position } from 'src/services/admin/alertify.service';
+import { SocialUser } from '@abacritt/angularx-social-login';
 
 @Injectable({
   providedIn: 'root',
@@ -52,6 +53,36 @@ export class UserService {
     )) as TokenResponse; //It will return jwt
 
     //If it's successful, set the access token to local storage and return message
+    if (tokenResponse) {
+      localStorage.setItem('accessToken', tokenResponse.token.accessToken);
+
+      this.toastrService.message('You logged in successfully', 'Logged In!', {
+        messageType: ToastrMessageType.Succes,
+        position: ToastrPosition.TopRight,
+      });
+      callBack();
+    } else {
+      this.toastrService.message('You are not authorized', 'Unauthorized', {
+        messageType: ToastrMessageType.Error,
+        position: ToastrPosition.TopCenter,
+      });
+    }
+  }
+
+  async googleLogin(user: SocialUser, callBack?: () => void) {
+    const observable: Observable<SocialUser | TokenResponse> =
+      this.httpClientService.post<SocialUser | TokenResponse>(
+        {
+          action: 'google-login',
+          controller: this.controller,
+        },
+        user
+      );
+
+    const tokenResponse: TokenResponse = (await firstValueFrom(
+      observable
+    )) as TokenResponse;
+
     if (tokenResponse) {
       localStorage.setItem('accessToken', tokenResponse.token.accessToken);
 
