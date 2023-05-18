@@ -26,8 +26,15 @@
       />
     </div>
     <br />
-    <asl-google-signin-button></asl-google-signin-button>
-
+    <div class="external-login-btns">
+      <asl-google-signin-button></asl-google-signin-button>
+      <img
+        src="../../../../assets/facebook_icon.png"
+        alt=""
+        class="facebook-btn"
+        (click)="facebookLogin()"
+      />
+    </div>
     <button
       type="submit"
       class="btn btn-primary"

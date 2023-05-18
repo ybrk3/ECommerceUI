@@ -1,3 +1,4 @@
+import { SocialAuthService } from '@abacritt/angularx-social-login';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { MessageType } from 'src/services/admin/alertify.service';
@@ -20,7 +21,8 @@ export class AppComponent {
   constructor(
     public authService: AuthService,
     private toastrService: CustomToastrService,
-    private router: Router
+    private router: Router,
+    private socialAuthService: SocialAuthService
   ) {
     authService.identityCheck();
   }
@@ -28,7 +30,6 @@ export class AppComponent {
   signOut() {
     //remove token from local storage
     localStorage.removeItem('accessToken');
-
     //run identityCheck to re-set nav-links (such as adding register, login)
     this.authService.identityCheck();
 
@@ -38,7 +39,10 @@ export class AppComponent {
       position: ToastrPosition.TopRight,
     });
 
+    //If it's from google authentication first sign out from there
+
+    this.socialAuthService.signOut();
     //route to the main page
-    this.router.navigate(['']);
+    this.router.navigate(['login']);
   }
 }

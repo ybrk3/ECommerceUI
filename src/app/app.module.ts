@@ -10,6 +10,7 @@ import { ToastrModule } from 'ngx-toastr';
 import { HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import {
+  FacebookLoginProvider,
   GoogleLoginProvider,
   GoogleSigninButtonModule,
   SocialAuthServiceConfig,
@@ -50,6 +51,10 @@ import { LoginComponent } from './ui/components/login/login.component';
             provider: new GoogleLoginProvider(
               '1058685524300-f3bgdqme42o3afca47b0cv88g8nt550g.apps.googleusercontent.com'
             ),
+          },
+          {
+            id: FacebookLoginProvider.PROVIDER_ID,
+            provider: new FacebookLoginProvider('649246677025543'),
           },
         ],
         onError: (err) => {

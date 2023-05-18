@@ -53,23 +53,16 @@ export class UserService {
     )) as TokenResponse; //It will return jwt
 
     //If it's successful, set the access token to local storage and return message
+    //As per token existency, notifying user
     if (tokenResponse) {
-      localStorage.setItem('accessToken', tokenResponse.token.accessToken);
-
-      this.toastrService.message('You logged in successfully', 'Logged In!', {
-        messageType: ToastrMessageType.Succes,
-        position: ToastrPosition.TopRight,
-      });
+      this.successToastrNotification(tokenResponse);
       callBack();
     } else {
-      this.toastrService.message('You are not authorized', 'Unauthorized', {
-        messageType: ToastrMessageType.Error,
-        position: ToastrPosition.TopCenter,
-      });
+      this.errorToastrNotification(tokenResponse);
     }
   }
 
-  async googleLogin(user: SocialUser, callBack?: () => any) {
+  async googleLogin(user: SocialUser, callBack?: () => any): Promise<any> {
     const observable: Observable<SocialUser | TokenResponse> =
       this.httpClientService.post<SocialUser | TokenResponse>(
         {
@@ -83,19 +76,53 @@ export class UserService {
       observable
     )) as TokenResponse;
 
+    //As per token existency, notifying user
     if (tokenResponse) {
-      localStorage.setItem('accessToken', tokenResponse.token.accessToken);
-
-      this.toastrService.message('You logged in successfully', 'Logged In!', {
-        messageType: ToastrMessageType.Succes,
-        position: ToastrPosition.TopRight,
-      });
+      this.successToastrNotification(tokenResponse);
       callBack();
     } else {
-      this.toastrService.message('You are not authorized', 'Unauthorized', {
-        messageType: ToastrMessageType.Error,
-        position: ToastrPosition.TopCenter,
-      });
+      this.errorToastrNotification(tokenResponse);
     }
+  }
+
+  async facebookLogin(user: SocialUser, callBack?: () => any): Promise<any> {
+    //there are 2 different parameters below, so one for type we sent back to API and other is response
+    const observable: Observable<SocialUser | TokenResponse> =
+      this.httpClientService.post<SocialUser | TokenResponse>(
+        {
+          controller: this.controller,
+          action: 'facebook-login', //=> ../users/facebook-login
+        },
+        user
+      );
+    //get token. Due to above there are 2 different type we set it as "TokenResponse"
+    const tokenResponse: TokenResponse = (await firstValueFrom(
+      observable
+    )) as TokenResponse;
+
+    //As per token existency, notifying user
+    if (tokenResponse) {
+      this.successToastrNotification(tokenResponse);
+      callBack();
+    } else {
+      this.errorToastrNotification(tokenResponse);
+    }
+  }
+
+  private successToastrNotification(tokenResponse: TokenResponse) {
+    localStorage.setItem('accessToken', tokenResponse.token.accessToken);
+
+    this.toastrService.message('You logged in successfully', 'Logged In!', {
+      messageType: ToastrMessageType.Succes,
+      position: ToastrPosition.TopRight,
+    });
+  }
+  private errorToastrNotification(tokenResponse: TokenResponse) {
+    localStorage.setItem('accessToken', tokenResponse.token.accessToken);
+
+    this.toastrService.message('You logged in successfully', 'Logged In!', {
+      messageType: ToastrMessageType.Succes,
+      position: ToastrPosition.TopRight,
+    });
   }
 }

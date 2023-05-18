@@ -1,4 +1,8 @@
-import { SocialAuthService, SocialUser } from '@abacritt/angularx-social-login';
+import {
+  FacebookLoginProvider,
+  SocialAuthService,
+  SocialUser,
+} from '@abacritt/angularx-social-login';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/services/common/auth.service';
@@ -18,15 +22,23 @@ export class LoginComponent implements OnInit {
     private socialAuthService: SocialAuthService
   ) {
     socialAuthService.authState.subscribe((user: SocialUser) => {
-      userService.googleLogin(user, () => {
-        this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
-        //if there is returnUrl, below will navigate the route there
-        this.activatedRoute.queryParams.subscribe((params) => {
-          const returnUrl: string = params['returnUrl'];
-          if (returnUrl) this.router.navigate([returnUrl]);
-          else this.router.navigate(['']);
-        });
-      });
+      switch (user?.provider) {
+        case 'GOOGLE': {
+          userService.googleLogin(user, () => {
+            this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
+            this.navigateToReturnUrl('');
+          });
+          break;
+        }
+        case 'FACEBOOK': {
+          userService.facebookLogin(user, () => {
+            console.log(user);
+            this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
+            this.navigateToReturnUrl('');
+          });
+          break;
+        }
+      }
     });
   }
 
@@ -40,12 +52,22 @@ export class LoginComponent implements OnInit {
       },
       () => {
         this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
-        this.activatedRoute.queryParams.subscribe((params) => {
-          const returnUrl: string = params['returnUrl'];
-          if (returnUrl) this.router.navigate([returnUrl]);
-          else this.router.navigate(['']);
-        });
+        this.navigateToReturnUrl('');
       }
     );
+  }
+
+  private navigateToReturnUrl(path: string) {
+    //if there is returnUrl, below will navigate the route there
+    this.activatedRoute.queryParams.subscribe((params) => {
+      const returnUrl: string = params['returnUrl'];
+      if (returnUrl) this.router.navigate([returnUrl]);
+      else this.router.navigate([path]);
+    });
+  }
+
+  public facebookLogin() {
+    //Open facebook login window
+    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 }
