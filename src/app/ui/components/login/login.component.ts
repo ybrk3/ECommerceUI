@@ -24,14 +24,14 @@ export class LoginComponent implements OnInit {
     socialAuthService.authState.subscribe((user: SocialUser) => {
       switch (user?.provider) {
         case 'GOOGLE': {
-          userService.googleLogin(user, () => {
+          authService.googleLogin(user, () => {
             this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
             this.navigateToReturnUrl('');
           });
           break;
         }
         case 'FACEBOOK': {
-          userService.facebookLogin(user, () => {
+          authService.facebookLogin(user, () => {
             console.log(user);
 
             this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
@@ -46,7 +46,7 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {}
 
   async login(txtUsernameOrEmail: string, txtPassword: string) {
-    await this.userService.login(
+    await this.authService.login(
       {
         emailOrUsername: txtUsernameOrEmail,
         password: txtPassword,
