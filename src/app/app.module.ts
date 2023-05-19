@@ -7,7 +7,7 @@ import { AdminModule } from './admin/admin.module';
 import { UiModule } from './ui/ui.module';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
-import { HttpClientModule } from '@angular/common/http';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
 import { JwtModule } from '@auth0/angular-jwt';
 import {
   FacebookLoginProvider,
@@ -17,6 +17,7 @@ import {
   SocialLoginModule,
 } from '@abacritt/angularx-social-login';
 import { LoginComponent } from './ui/components/login/login.component';
+import { HttpErrorHandlerInterceptorService } from 'src/services/common/http-error-handler-interceptor.service';
 
 @NgModule({
   declarations: [AppComponent, LoginComponent],
@@ -61,6 +62,11 @@ import { LoginComponent } from './ui/components/login/login.component';
           console.log(err);
         },
       } as SocialAuthServiceConfig,
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: HttpErrorHandlerInterceptorService,
+      multi: true,
     },
   ],
   bootstrap: [AppComponent],
