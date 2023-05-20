@@ -13,12 +13,16 @@ import {
   ToastrPosition,
 } from '../ui/custom-toastr.service';
 import { MessageType } from '../admin/alertify.service';
+import { AuthService } from './auth.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
-  constructor(private toastrService: CustomToastrService) {}
+  constructor(
+    private toastrService: CustomToastrService,
+    private authService: AuthService
+  ) {}
   intercept(
     req: HttpRequest<any>,
     next: HttpHandler
@@ -27,6 +31,11 @@ export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
       catchError((error) => {
         switch (error.status) {
           case HttpStatusCode.Unauthorized:
+            //Try refresh token login
+            this.authService.refreshTokenLogin(
+              localStorage.getItem('refreshToken')
+            );
+
             this.toastrService.message(
               'You are not authorized!',
               'Unauthorized',

@@ -10,6 +10,7 @@ import {
   ToastrMessageType,
   ToastrPosition,
 } from '../ui/custom-toastr.service';
+import { Token } from '@angular/compiler';
 
 @Injectable({
   providedIn: 'root',
@@ -44,6 +45,22 @@ export class AuthService {
     } else {
       this.errorToastrNotification(tokenResponse);
     }
+  }
+
+  async refreshTokenLogin(refreshToken: string): Promise<any> {
+    const observable: Observable<any | TokenResponse> =
+      this.httpClientService.post<any | TokenResponse>(
+        {
+          controller: this.controller,
+          action: 'RefreshTokenLogin',
+        },
+        { refreshToken: refreshToken }
+      );
+
+    const tokenResponse: TokenResponse = (await firstValueFrom(
+      observable
+    )) as TokenResponse;
+    if (tokenResponse) this.setToken(tokenResponse);
   }
 
   async googleLogin(user: SocialUser, callBack?: () => any): Promise<any> {
@@ -94,7 +111,7 @@ export class AuthService {
   }
 
   private successToastrNotification(tokenResponse: TokenResponse) {
-    localStorage.setItem('accessToken', tokenResponse.token.accessToken);
+    this.setToken(tokenResponse);
 
     this.toastrService.message('You logged in successfully', 'Logged In!', {
       messageType: ToastrMessageType.Succes,
@@ -102,12 +119,17 @@ export class AuthService {
     });
   }
   private errorToastrNotification(tokenResponse: TokenResponse) {
-    localStorage.setItem('accessToken', tokenResponse.token.accessToken);
+    this.setToken(tokenResponse);
 
     this.toastrService.message('You logged in successfully', 'Logged In!', {
       messageType: ToastrMessageType.Succes,
       position: ToastrPosition.TopRight,
     });
+  }
+
+  private setToken(tokenResponse: TokenResponse) {
+    localStorage.setItem('accessToken', tokenResponse.token.accessToken);
+    localStorage.setItem('refreshToken', tokenResponse.token.refreshToken);
   }
   identityCheck() {
     //Get token from localStorage
