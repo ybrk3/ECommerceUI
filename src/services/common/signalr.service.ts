@@ -37,15 +37,13 @@ export class SignalRService {
       //if not, it will try to connect every 2 secs.
       hubConnection
         .start()
-        .then(() => {
-          console.log('connected');
-          this._connection = hubConnection;
-        })
+        .then(() => console.log('connected'))
         .catch((err) => {
           setTimeout(() => {
             this.start(hubUrl);
           }, 2000);
         });
+      this._connection = hubConnection;
     }
 
     //In case of disconnection after connection
@@ -77,6 +75,7 @@ export class SignalRService {
   }
 
   //It will catch the messages from server and it will invoke the event when message arrives
+  //this can be caught on ngOnit
   on(procedureName: string, callBack: (...message) => void) {
     this.connection.on(procedureName, callBack);
   }
