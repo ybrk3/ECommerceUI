@@ -72,7 +72,6 @@ export class AuthService {
         },
         user
       );
-
     const tokenResponse: TokenResponse = (await firstValueFrom(
       observable
     )) as TokenResponse;
