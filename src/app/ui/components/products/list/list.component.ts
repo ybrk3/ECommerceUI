@@ -55,7 +55,7 @@ export class ListComponent implements OnInit {
       if (this.currentPageNo - 2 <= 0) {
         for (let i = 1; i <= 5; i++)
           if (i <= this.totalPageCount) this.pageList.push(i);
-      } else if (this.currentPageNo + 3 >= this.totalPageCount) {
+      } else if (this.currentPageNo + 3 > this.totalPageCount) {
         for (let i = this.totalPageCount - 4; i <= this.totalPageCount; i++)
           if (i > 0) this.pageList.push(i);
       } else {

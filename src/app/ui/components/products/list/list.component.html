@@ -17,12 +17,12 @@
 <div class="row pagination-nav">
   <nav aria-label="Page navigation example">
     <ul class="pagination">
-      <li class="page-item">
+      <li class="page-item" [class.disabled]="currentPageNo == 1">
         <a class="page-link" href="#" [routerLink]="['/products', 1]"
           >First Page</a
         >
       </li>
-      <li class="page-item">
+      <li class="page-item" [class.disabled]="currentPageNo == 1">
         <a
           class="page-link"
           href="#"
@@ -37,7 +37,7 @@
         }}</a>
       </li>
 
-      <li class="page-item">
+      <li class="page-item" [class.disabled]="currentPageNo == totalPageCount">
         <a
           class="page-link"
           href="#"
@@ -45,7 +45,7 @@
           >Next</a
         >
       </li>
-      <li class="page-item">
+      <li class="page-item" [class.disabled]="currentPageNo == totalPageCount">
         <a
           class="page-link"
           href="#"
