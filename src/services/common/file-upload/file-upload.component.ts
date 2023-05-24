@@ -17,6 +17,7 @@ import {
   FileUploadDialogComponent,
   FileUploadState,
 } from 'src/app/dialogs/file-upload-dialog/file-upload-dialog.component';
+import { ProductService } from '../models/product.service';
 
 @Component({
   selector: 'app-file-upload',
@@ -31,7 +32,8 @@ export class FileUploadComponent {
     private httpClientService: HttpClientService,
     private alertifyService: AlertifyService,
     private customToastrService: CustomToastrService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private productService: ProductService
   ) {}
 
   //Selected Files

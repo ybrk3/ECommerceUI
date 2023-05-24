@@ -57,6 +57,10 @@ export class UploadPhotoDialogComponent
       },
     });
   }
+
+  showcase(imageId: string) {
+    this.productService.changeShowcase(imageId, this.data as string, () => {});
+  }
 }
 
 export enum UploadPhotoState {

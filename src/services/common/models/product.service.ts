@@ -87,4 +87,19 @@ export class ProductService {
     );
     await firstValueFrom(getObservable);
   }
+
+  async changeShowcase(
+    imageId: string,
+    productId: string,
+    successCallBack?: () => void
+  ): Promise<void> {
+    const observable = this.httpClientService.get({
+      controller: this.controller,
+      action: 'ChangeShowCase',
+      queryString: `imageId=${imageId}&productId=${productId}`,
+    });
+
+    await firstValueFrom(observable);
+    successCallBack();
+  }
 }

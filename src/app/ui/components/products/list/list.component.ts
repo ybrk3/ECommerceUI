@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { List_Product } from 'src/contracts/list_product';
+import { FileService } from 'src/services/common/file.service';
 import { ProductService } from 'src/services/common/models/product.service';
 import {
   CustomToastrService,
@@ -18,16 +19,20 @@ export class ListComponent implements OnInit {
   products: List_Product[];
   totalProductCount: number;
   totalPageCount: number;
-  pageSize: number = 1;
+  pageSize: number = 3;
   pageList: number[];
+  baseStorageUrl: string;
 
   constructor(
     private productService: ProductService,
     private toastrService: CustomToastrService,
-    private activatedRoute: ActivatedRoute
+    private activatedRoute: ActivatedRoute,
+    private fileService: FileService
   ) {}
 
-  ngOnInit(): void {
+  async ngOnInit() {
+    this.baseStorageUrl = await this.fileService.getBaseStorageUrl();
+
     this.activatedRoute.params.subscribe(async (params) => {
       this.currentPageNo = parseInt(params['pageNo'] ?? 1);
 
@@ -45,7 +50,21 @@ export class ListComponent implements OnInit {
           });
         }
       );
-      this.products = allProducts.products;
+
+      this.products = allProducts.products.map<List_Product>((p) => {
+        const listProduct: List_Product = {
+          id: p.id,
+          name: p.name,
+          stock: p.stock,
+          price: p.price,
+          imagePath: p.images.length
+            ? p.images.find((p) => p.showcase).path
+            : '',
+          UpdatedDate: p.UpdatedDate,
+          createdDate: p.createdDate,
+        };
+        return listProduct;
+      });
       this.totalProductCount = allProducts.totalProductCount;
       //Pagination
       this.totalPageCount = Math.ceil(this.totalProductCount / this.pageSize);

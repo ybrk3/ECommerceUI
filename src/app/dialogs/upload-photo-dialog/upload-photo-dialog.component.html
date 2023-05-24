@@ -4,7 +4,15 @@
 <hr />
 
 <mat-card class="product-image-card" *ngFor="let image of productImages">
-  <mat-card-header> </mat-card-header>
+  <mat-card-header>
+    <label><b>Select as showcase</b></label>
+    <input
+      type="radio"
+      name="img"
+      class="showcase"
+      (click)="showcase(image.id)"
+      [checked]="image.showcase === true"
+  /></mat-card-header>
   <img mat-card-image [src]="image.path" />
   <mat-card-content> </mat-card-content>
   <mat-card-actions>
