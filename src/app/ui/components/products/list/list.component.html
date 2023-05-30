@@ -21,7 +21,7 @@
         <b>{{ product.name }}</b>
       </h5>
       <p class="card-text"><b>Price:</b> {{ product.price | currency }}</p>
-      <a href="#" class="btn btn-success">Add to Cart</a>
+      <a class="btn btn-success" (click)="addToCart(product)">Add to Cart</a>
     </div>
   </div>
 </div>

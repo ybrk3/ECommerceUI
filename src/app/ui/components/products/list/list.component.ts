@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { Add_Basket_Item } from 'src/contracts/basket/add_basket_item';
 import { List_Product } from 'src/contracts/list_product';
 import { FileService } from 'src/services/common/file.service';
+import { BasketService } from 'src/services/common/models/basket.service';
 import { ProductService } from 'src/services/common/models/product.service';
 import {
   CustomToastrService,
@@ -27,7 +29,8 @@ export class ListComponent implements OnInit {
     private productService: ProductService,
     private toastrService: CustomToastrService,
     private activatedRoute: ActivatedRoute,
-    private fileService: FileService
+    private fileService: FileService,
+    private basketService: BasketService
   ) {}
 
   async ngOnInit() {
@@ -81,6 +84,18 @@ export class ListComponent implements OnInit {
         for (let i = this.currentPageNo - 2; i <= this.currentPageNo + 2; i++)
           this.pageList.push(i);
       }
+    });
+  }
+
+  async addToCart(product: List_Product) {
+    let _basketItem: Add_Basket_Item = new Add_Basket_Item();
+    _basketItem.productId = product.id;
+    _basketItem.quantity = 1;
+    await this.basketService.AddItemToBasket(_basketItem, () => {
+      this.toastrService.message('Added to Cart', 'Added!', {
+        messageType: ToastrMessageType.Succes,
+        position: ToastrPosition.TopRight,
+      });
     });
   }
 }
