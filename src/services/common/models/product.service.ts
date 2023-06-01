@@ -49,13 +49,11 @@ export class ProductService {
         queryString: `page=${page}&size=${size}`,
       })
       .toPromise();
-
     promiseData
       .then((s) => successCallBack())
       .catch((errorResponse: HttpErrorResponse) =>
         errorCallBack(errorResponse.message)
       );
-
     return await promiseData;
   }
 

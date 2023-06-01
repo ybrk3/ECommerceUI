@@ -18,9 +18,10 @@ import {
 } from '@abacritt/angularx-social-login';
 import { LoginComponent } from './ui/components/login/login.component';
 import { HttpErrorHandlerInterceptorService } from 'src/services/common/http-error-handler-interceptor.service';
+import { DynamicLoadComponentDirective } from 'src/app/directives/common/dynamic-load-component.directive';
 
 @NgModule({
-  declarations: [AppComponent, LoginComponent],
+  declarations: [AppComponent, LoginComponent, DynamicLoadComponentDirective],
   imports: [
     BrowserModule,
     AppRoutingModule,

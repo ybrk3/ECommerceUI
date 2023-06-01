@@ -112,6 +112,7 @@
             data-bs-toggle="modal"
             data-bs-target="#exampleModal"
             style="height: 40px"
+            (click)="loadComponent()"
           >
             >
             <img
@@ -132,4 +133,16 @@
   <div class="col-md-2"></div>
 </div>
 
-<app-baskets></app-baskets>
+<!--<app-baskets></app-baskets>-->
+
+<div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <ng-template appDynamicLoadComponent></ng-template>
+  </div>
+</div>

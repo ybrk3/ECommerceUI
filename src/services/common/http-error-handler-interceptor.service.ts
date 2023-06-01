@@ -22,7 +22,8 @@ import { Router } from '@angular/router';
 export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
   constructor(
     private toastrService: CustomToastrService,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
   intercept(
     req: HttpRequest<any>,
@@ -32,25 +33,46 @@ export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
       catchError((error) => {
         switch (error.status) {
           case HttpStatusCode.Unauthorized:
-            //Try refresh token login
             this.authService.refreshTokenLogin(
-              localStorage.getItem('refreshToken')
-            );
-
-            this.toastrService.message(
-              'You are not authorized!',
-              'Unauthorized',
-              {
-                messageType: ToastrMessageType.Warning,
-                position: ToastrPosition.TopFullWidth,
+              localStorage.getItem('refreshToken'),
+              (state) => {
+                if (!state) {
+                  const url: string = this.router.url;
+                  if (url === '/products') {
+                    this.toastrService.message(
+                      'Please login to add products to cart',
+                      'Please Login',
+                      {
+                        messageType: ToastrMessageType.Info,
+                        position: ToastrPosition.TopCenter,
+                      }
+                    );
+                  } else {
+                    this.toastrService.message(
+                      'You are not authorized!',
+                      'Unauthorized',
+                      {
+                        messageType: ToastrMessageType.Warning,
+                        position: ToastrPosition.TopFullWidth,
+                      }
+                    );
+                  }
+                  this.router.navigate(['/login']);
+                }
               }
             );
             break;
           case HttpStatusCode.InternalServerError:
-            this.toastrService.message('Server unreachable', 'Server Error!', {
-              messageType: ToastrMessageType.Warning,
-              position: ToastrPosition.TopFullWidth,
-            });
+            if (!HttpStatusCode.Unauthorized)
+              this.toastrService.message(
+                'Server unreachable',
+                'Server Error!',
+                {
+                  messageType: ToastrMessageType.Warning,
+                  position: ToastrPosition.TopFullWidth,
+                }
+              );
+
             break;
           case HttpStatusCode.BadRequest:
             this.toastrService.message('Invalid Request', 'Invalid Request!', {

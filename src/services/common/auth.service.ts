@@ -47,7 +47,10 @@ export class AuthService {
     }
   }
 
-  async refreshTokenLogin(refreshToken: string): Promise<any> {
+  async refreshTokenLogin(
+    refreshToken: string,
+    callBackFunction?: (state) => void
+  ): Promise<any> {
     const observable: Observable<any | TokenResponse> =
       this.httpClientService.post<any | TokenResponse>(
         {
@@ -57,10 +60,15 @@ export class AuthService {
         { refreshToken: refreshToken }
       );
 
-    const tokenResponse: TokenResponse = (await firstValueFrom(
-      observable
-    )) as TokenResponse;
-    if (tokenResponse) this.setToken(tokenResponse);
+    try {
+      const tokenResponse: TokenResponse = (await firstValueFrom(
+        observable
+      )) as TokenResponse;
+      if (tokenResponse) this.setToken(tokenResponse);
+      callBackFunction(tokenResponse ? true : false);
+    } catch {
+      callBackFunction(false);
+    }
   }
 
   async googleLogin(user: SocialUser, callBack?: () => any): Promise<any> {

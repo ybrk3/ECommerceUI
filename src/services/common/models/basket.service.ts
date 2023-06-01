@@ -9,7 +9,7 @@ import { Update_Quantity } from 'src/contracts/basket/update_quantity';
   providedIn: 'root',
 })
 export class BasketService {
-  controller: string = 'Baskets';
+  controller: string = 'baskets';
   constructor(private httpClientService: HttpClientService) {}
 
   async getBasketItems(): Promise<List_Basket_Items[]> {
