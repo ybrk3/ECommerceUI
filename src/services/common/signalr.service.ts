@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable } from '@angular/core';
 import {
   HubConnection,
   HubConnectionBuilder,
@@ -15,10 +15,11 @@ export class SignalRService {
     return this._connection;
   }
 
-  constructor() {}
+  constructor(@Inject('baseSignalRUrl') private baseSignalRUrl: string) {}
 
   //it will start connection, if disconnected, try to reconnect, and create hub and return necessary notification regarding hub connection
   start(hubUrl: string) {
+    hubUrl = this.baseSignalRUrl + hubUrl;
     if (
       !this.connection ||
       this._connection?.state === HubConnectionState.Disconnected

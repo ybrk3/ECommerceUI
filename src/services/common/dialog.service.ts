@@ -5,8 +5,11 @@ import { ComponentType } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root',
 })
+
+//Contains method to open dialog component which is under dialogs folder and its parameters in enum type
 export class DialogService {
   constructor(private dialog: MatDialog) {}
+
   openDialog(dialogParameters: Partial<DialogParameters>): void {
     const dialogRef = this.dialog.open(dialogParameters.component, {
       width: dialogParameters.options?.width,

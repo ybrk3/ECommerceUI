@@ -7,9 +7,14 @@ import { UploadPhotoDialogComponent } from './upload-photo-dialog/upload-photo-d
 import { FileUploadModule } from 'src/services/common/file-upload/file-upload.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { BasketItemRemoveDialogComponent } from './basket-item-remove-dialog/basket-item-remove-dialog.component';
 
 @NgModule({
-  declarations: [DeleteDialogComponent, UploadPhotoDialogComponent],
+  declarations: [
+    DeleteDialogComponent,
+    UploadPhotoDialogComponent,
+    BasketItemRemoveDialogComponent,
+  ],
   imports: [
     CommonModule,
     MatDialogModule,

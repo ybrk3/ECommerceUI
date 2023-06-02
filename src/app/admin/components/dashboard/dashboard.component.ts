@@ -18,7 +18,9 @@ export class DashboardComponent implements OnInit {
     private signalRService: SignalRService,
     private alertifyService: AlertifyService
   ) {
-    signalRService.start(HubUrls.ProductionHub); //it will starts the connection to hub
+    //it will starts the connection to hub
+    signalRService.start(HubUrls.ProductionHub);
+    signalRService.start(HubUrls.OrderHub);
   }
 
   ngOnInit(): void {
@@ -29,6 +31,16 @@ export class DashboardComponent implements OnInit {
         this.alertifyService.message(message, {
           messageType: MessageType.Notify,
           position: Position.TopRight,
+        })
+    );
+
+    //catch the message and render it on alert window for ORDER
+    this.signalRService.on(
+      ReceiveFunctions.OrderAddedMessageRecieveFunction,
+      (message) =>
+        this.alertifyService.message(message, {
+          messageType: MessageType.Notify,
+          position: Position.TopCenter,
         })
     );
   }
