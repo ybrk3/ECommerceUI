@@ -13,7 +13,7 @@ export class BasketItemRemoveDialogComponent
   implements OnDestroy
 {
   constructor(
-    dialogRef: MatDialogRef<BasketItemRemoveDialogComponent>,
+    dialogRef: MatDialogRef<BasketItemRemoveDialogComponent>, //to close dialog box
     @Inject(MAT_DIALOG_DATA) public data: BasketItemDeleteState.Yes
   ) {
     super(dialogRef);

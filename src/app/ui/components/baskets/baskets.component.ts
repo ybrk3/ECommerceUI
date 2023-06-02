@@ -17,6 +17,10 @@ import {
   BasketItemDeleteState,
   BasketItemRemoveDialogComponent,
 } from 'src/app/dialogs/basket-item-remove-dialog/basket-item-remove-dialog.component';
+import {
+  ShoppingCompleteDeleteState,
+  ShoppingCompleteDialogComponent,
+} from 'src/app/dialogs/shopping-complete-dialog/shopping-complete-dialog.component';
 
 declare var $: any;
 
@@ -67,23 +71,29 @@ export class BasketsComponent implements OnInit {
   async getBasketItems() {
     this.basketItems = await this.basketService.getBasketItems();
     this.sumPrice = this.basketItems.reduce((sum, bi) => sum + bi.price, 0);
-    console.log(this.basketItems[0]);
   }
 
   async onShoppingComplete() {
-    const newOrderInfo: Create_Order = new Create_Order();
-    newOrderInfo.address = 'Emek/Çankaya/Ankara';
-    newOrderInfo.description = '....';
-    await this.orderService.createOrder(newOrderInfo, () =>
-      this.toastrService.message(
-        'Order successfully completed!',
-        'Order Done!',
-        {
-          messageType: ToastrMessageType.Succes,
-          position: ToastrPosition.TopCenter,
-        }
-      )
-    );
-    this.router.navigate(['/']);
+    $('#basketModal').modal('hide');
+    this.dialogService.openDialog({
+      component: ShoppingCompleteDialogComponent,
+      data: ShoppingCompleteDeleteState.Yes, //to be used callback function when click to Yes
+      afterClosed: async () => {
+        const newOrderInfo: Create_Order = new Create_Order();
+        newOrderInfo.address = 'Emek/Çankaya/Ankara';
+        newOrderInfo.description = '....';
+        await this.orderService.createOrder(newOrderInfo, () =>
+          this.toastrService.message(
+            'Order successfully completed!',
+            'Order Done!',
+            {
+              messageType: ToastrMessageType.Succes,
+              position: ToastrPosition.TopCenter,
+            }
+          )
+        );
+        this.getBasketItems();
+      },
+    });
   }
 }
