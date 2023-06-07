@@ -1,8 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { List_Basket_Items } from 'src/contracts/basket/list_basket_items';
 import { BasketService } from 'src/services/common/models/basket.service';
-import { UiModule } from '../../ui.module';
-import { ToastrService } from 'ngx-toastr';
 import {
   CustomToastrService,
   ToastrMessageType,
@@ -11,7 +9,6 @@ import {
 import { Update_Quantity } from 'src/contracts/basket/update_quantity';
 import { Create_Order } from 'src/contracts/basket/create_order';
 import { OrderService } from 'src/services/ui/order.service';
-import { Router } from '@angular/router';
 import { DialogService } from 'src/services/common/dialog.service';
 import {
   BasketItemDeleteState,
@@ -21,6 +18,7 @@ import {
   ShoppingCompleteDeleteState,
   ShoppingCompleteDialogComponent,
 } from 'src/app/dialogs/shopping-complete-dialog/shopping-complete-dialog.component';
+import { FileService } from 'src/services/common/file.service';
 
 declare var $: any;
 
@@ -32,13 +30,14 @@ declare var $: any;
 export class BasketsComponent implements OnInit {
   basketItems: List_Basket_Items[];
   sumPrice: number;
+  baseStorageUrl: string;
 
   constructor(
     private toastrService: CustomToastrService,
     private basketService: BasketService,
     private orderService: OrderService,
-    private router: Router,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private fileService: FileService
   ) {}
 
   async ngOnInit(): Promise<void> {
@@ -54,6 +53,7 @@ export class BasketsComponent implements OnInit {
         await this.basketService.removeItemFromBasket(basketItemId);
         var a = $('.' + basketItemId);
         $('.' + basketItemId).fadeOut(500, () => {});
+        this.getBasketItems();
         $('#basketModal').modal('show');
       },
     });
@@ -66,11 +66,29 @@ export class BasketsComponent implements OnInit {
     updatedQuantity.basketItemId = basketItemId;
     updatedQuantity.quantity = quantity;
     this.basketService.updateQuantity(updatedQuantity);
+    this.getBasketItems();
   }
 
   async getBasketItems() {
-    this.basketItems = await this.basketService.getBasketItems();
-    this.sumPrice = this.basketItems.reduce((sum, bi) => sum + bi.price, 0);
+    const basketItemsFromApi: List_Basket_Items[] =
+      await this.basketService.getBasketItems();
+    this.basketItems = basketItemsFromApi.map<List_Basket_Items>((bi) => {
+      const basketItem: List_Basket_Items = {
+        basketItemId: bi.basketItemId,
+        name: bi.name,
+        price: bi.price,
+        quantity: bi.quantity,
+        productId: bi.productId,
+        image: bi.imagePaths.length ? bi.imagePaths.at(0) : '',
+      };
+      return basketItem;
+    });
+    this.baseStorageUrl = await this.fileService.getBaseStorageUrl();
+
+    this.sumPrice = this.basketItems.reduce(
+      (sum, bi) => sum + bi.price * bi.quantity,
+      0
+    );
   }
 
   async onShoppingComplete() {

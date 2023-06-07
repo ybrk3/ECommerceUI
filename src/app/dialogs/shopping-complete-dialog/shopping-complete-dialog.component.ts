@@ -21,11 +21,11 @@ export class ShoppingCompleteDialogComponent
   show: boolean = false;
   onComplete() {
     this.show = true;
-    //if cancel clicked, it will show basket modal again ngOnDestroy
+    //if cancel button has been clicked, it will show basket modal again ngOnDestroy
   }
 
   ngOnDestroy(): void {
-    //if cancel clicked, it will show basket modal again
+    //if cancel button has been clicked, it will show basket modal again
     if (!this.show) $('#basketModal').modal('show');
   }
 }

@@ -66,6 +66,7 @@ export class ListComponent implements OnInit {
           UpdatedDate: p.UpdatedDate,
           createdDate: p.createdDate,
         };
+        debugger;
         return listProduct;
       });
       this.totalProductCount = allProducts.totalProductCount;
