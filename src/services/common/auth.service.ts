@@ -117,6 +117,41 @@ export class AuthService {
     }
   }
 
+  async resetPassword(
+    email: string,
+    callBackFunction?: () => void
+  ): Promise<any> {
+    const observable: Observable<any> = this.httpClientService.post(
+      {
+        controller: this.controller,
+        action: 'password-reset',
+      },
+      { email: email }
+    );
+
+    await firstValueFrom(observable);
+    callBackFunction();
+  }
+
+  //sending request to API for confirm reset token in the route
+  async verifyResetToken(
+    resetToken: string,
+    userId: string,
+    callBackFunction?: () => void
+  ): Promise<boolean> {
+    const observable: Observable<any> = this.httpClientService.post(
+      {
+        controller: this.controller,
+        action: 'verify-reset-token',
+      },
+      { resetToken: resetToken, userId: userId }
+    );
+    const state: boolean = await firstValueFrom(observable);
+
+    callBackFunction();
+    return state;
+  }
+
   private successToastrNotification(tokenResponse: TokenResponse) {
     this.setToken(tokenResponse);
 

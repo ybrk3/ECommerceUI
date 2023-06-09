@@ -1,8 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { OrderDetailDialogComponent } from 'src/app/dialogs/order-detail-dialog/order-detail-dialog.component';
 import { UploadPhotoDialogComponent } from 'src/app/dialogs/upload-photo-dialog/upload-photo-dialog.component';
-import { List_Product } from 'src/contracts/list_product';
 import { ListOrders } from 'src/contracts/orders/list_orders';
 import {
   AlertifyService,
@@ -10,7 +10,6 @@ import {
   Position,
 } from 'src/services/admin/alertify.service';
 import { DialogService } from 'src/services/common/dialog.service';
-import { ProductService } from 'src/services/common/models/product.service';
 import { OrderService } from 'src/services/ui/order.service';
 
 @Component({
@@ -24,6 +23,8 @@ export class ListComponent implements OnInit {
     'nameSurname',
     'totalPrice',
     'createdDate',
+    'detail',
+    'delete',
   ];
   dataSource: MatTableDataSource<ListOrders> = null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -53,7 +54,9 @@ export class ListComponent implements OnInit {
             delay: 10,
           })
       );
+
     this.dataSource = new MatTableDataSource<ListOrders>(allOrders.orders);
+
     this.paginator.length = allOrders.totalOrderCount;
   }
 
@@ -67,6 +70,14 @@ export class ListComponent implements OnInit {
       options: {
         width: '1250px',
       },
+    });
+  }
+  viewOrderDetail(elementId: string) {
+    this.dialogService.openDialog({
+      component: OrderDetailDialogComponent,
+      data: elementId,
+      afterClosed: () => {},
+      options: { width: '750px' },
     });
   }
 }

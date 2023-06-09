@@ -3,9 +3,9 @@ import { CommonModule } from '@angular/common';
 import { ProductsModule } from './products/products.module';
 import { BasketsModule } from './baskets/baskets.module';
 import { HomeModule } from './home/home.module';
-import { LoginComponent } from './login/login.component';
-import { LoginModule } from './login/login.module';
 import { RegisterModule } from './register/register.module';
+import { PasswordResetModule } from './password-reset/password-reset.module';
+import { UpdatePasswordModule } from './update-password/update-password.module';
 
 @NgModule({
   declarations: [],
@@ -16,7 +16,9 @@ import { RegisterModule } from './register/register.module';
     HomeModule,
     RegisterModule,
     //LoginModule,
+    PasswordResetModule,
+    UpdatePasswordModule,
   ],
-  exports: [BasketsModule],
+  exports: [BasketsModule], //UI'a ait bir component'in module'ü ancak app.component içerisinde html'de kullanıldığı için export edilir
 })
 export class ComponentsModule {}

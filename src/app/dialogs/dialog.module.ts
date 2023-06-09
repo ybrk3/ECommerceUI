@@ -9,6 +9,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { BasketItemRemoveDialogComponent } from './basket-item-remove-dialog/basket-item-remove-dialog.component';
 import { ShoppingCompleteDialogComponent } from 'src/app/dialogs/shopping-complete-dialog/shopping-complete-dialog.component';
+import { OrderDetailDialogComponent } from './order-detail-dialog/order-detail-dialog.component';
+import { MatTableModule } from '@angular/material/table';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 @NgModule({
   declarations: [
@@ -16,6 +20,7 @@ import { ShoppingCompleteDialogComponent } from 'src/app/dialogs/shopping-comple
     UploadPhotoDialogComponent,
     BasketItemRemoveDialogComponent,
     ShoppingCompleteDialogComponent,
+    OrderDetailDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -23,6 +28,9 @@ import { ShoppingCompleteDialogComponent } from 'src/app/dialogs/shopping-comple
     MatButtonModule,
     MatCardModule,
     FileUploadModule,
+    MatTableModule,
+    MatCheckboxModule,
+    MatToolbarModule,
   ],
 })
 export class DialogModule {}

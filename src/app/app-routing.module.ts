@@ -78,6 +78,20 @@ const routes: Routes = [
         (module) => module.LoginModule
       ),
   },
+  {
+    path: 'passwordReset',
+    loadChildren: () =>
+      import('./ui/components/password-reset/password-reset.module').then(
+        (module) => module.PasswordResetModule
+      ),
+  },
+  {
+    path: 'updatePassword/:userId/:resetToken',
+    loadChildren: () =>
+      import('./ui/components/update-password/update-password.module').then(
+        (module) => module.UpdatePasswordModule
+      ),
+  },
 ];
 
 @NgModule({

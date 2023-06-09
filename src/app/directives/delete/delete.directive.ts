@@ -33,7 +33,6 @@ export class DeleteDirective {
     private element: ElementRef, //to get element bound to directive
     private renderer: Renderer2, //to create DOM element
     private htttpClientservice: HttpClientService, //delete from db
-    private dialog: MatDialog, //dialog
     private alertify: AlertifyService,
     private dialogService: DialogService //to define callback function and parameters of dialog box
   ) {

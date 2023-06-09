@@ -13,7 +13,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatDialogModule } from '@angular/material/dialog';
 import { FileUploadModule } from 'src/services/common/file-upload/file-upload.module';
 import { DialogModule } from 'src/app/dialogs/dialog.module';
-import { DeleteDirective } from 'src/app/directives/admin/delete.directive';
+import { DeleteDirectiveModule } from 'src/app/directives/delete/delete.directive.module';
 
 @NgModule({
   declarations: [OrdersComponent, ListComponent],
@@ -31,6 +31,7 @@ import { DeleteDirective } from 'src/app/directives/admin/delete.directive';
     MatDialogModule,
     FileUploadModule,
     DialogModule,
+    DeleteDirectiveModule,
   ],
 })
 export class OrdersModule {}
