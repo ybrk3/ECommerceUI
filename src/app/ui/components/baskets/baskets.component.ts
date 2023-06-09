@@ -31,6 +31,7 @@ export class BasketsComponent implements OnInit {
   basketItems: List_Basket_Items[];
   sumPrice: number;
   baseStorageUrl: string;
+  state: boolean = false;
 
   constructor(
     private toastrService: CustomToastrService,
@@ -84,7 +85,8 @@ export class BasketsComponent implements OnInit {
       return basketItem;
     });
     this.baseStorageUrl = await this.fileService.getBaseStorageUrl();
-
+    this.state = this.basketItems.length ? true : false;
+    debugger;
     this.sumPrice = this.basketItems.reduce(
       (sum, bi) => sum + bi.price * bi.quantity,
       0
