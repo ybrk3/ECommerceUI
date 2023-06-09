@@ -6,9 +6,9 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+
 import { Create_User } from 'src/contracts/users/create_user';
 import { User } from 'src/entities/user';
-import { Position } from 'src/services/admin/alertify.service';
 import { UserService } from 'src/services/common/models/user.service';
 import {
   CustomToastrService,

@@ -7,6 +7,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+
 import {
   AlertifyService,
   MessageType,
@@ -69,8 +70,12 @@ export class UpdatePasswordComponent implements OnInit {
       }, //state.state will be true or false. if true it will render reset password page and used in html under -ngIf
     });
   }
-
-  updatePassword(newPassword: string, confirmNewPassword: string) {
+  //to reach the control
+  //also change "noPropertyAccessFromIndexSignature": false,
+  get component() {
+    return this.updatePasswordForm.controls;
+  }
+  updatePassword() {
     this.activatedRoute.params.subscribe({
       next: async (params) => {
         const userId: string = params['userId'];
