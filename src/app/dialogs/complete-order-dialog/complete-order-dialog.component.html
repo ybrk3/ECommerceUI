@@ -1,0 +1,12 @@
+<div>
+  <h1 mat-dialog-title>Attention</h1>
+
+  <div mat-dialog-content>
+    <p>Are you sure to complete this order?</p>
+  </div>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancel</button>
+    <button mat-button [mat-dialog-close]="data">Yes</button>
+  </div>
+</div>

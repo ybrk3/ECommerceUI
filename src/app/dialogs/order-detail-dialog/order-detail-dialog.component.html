@@ -4,6 +4,9 @@
     <mat-toolbar>
       <span>Order Number :</span>
       <span>{{ this.singleOrder.orderCode }}</span>
+      <span
+        ><img src="../../../assets/completed_icom.png" alt="completedOrder"
+      /></span>
     </mat-toolbar>
     <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
       <ng-container matColumnDef="name">
@@ -64,8 +67,24 @@
 
   <mat-dialog-actions align="end">
     <button mat-button mat-dialog-close>Cancel</button>
-    <button mat-button [mat-dialog-close]="data" cdkFocusInitial>
+    <button
+      mat-button
+      [mat-dialog-close]="data"
+      cdkFocusInitial
+      (click)="completeOrder()"
+      *ngIf="!this.singleOrder.completed"
+    >
       Complete Order
+    </button>
+    <button
+      mat-button
+      [mat-dialog-close]="data"
+      (click)="completeOrder()"
+      *ngIf="this.singleOrder.completed"
+      disabled="this.singleOrder.completed"
+      style="color: green"
+    >
+      Order Completed
     </button>
   </mat-dialog-actions>
 </div>

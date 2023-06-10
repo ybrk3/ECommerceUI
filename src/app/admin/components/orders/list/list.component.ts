@@ -19,6 +19,7 @@ import { OrderService } from 'src/services/ui/order.service';
 })
 export class ListComponent implements OnInit {
   displayedColumns: string[] = [
+    'status',
     'orderCode',
     'nameSurname',
     'totalPrice',
@@ -56,7 +57,6 @@ export class ListComponent implements OnInit {
       );
 
     this.dataSource = new MatTableDataSource<ListOrders>(allOrders.orders);
-
     this.paginator.length = allOrders.totalOrderCount;
   }
 

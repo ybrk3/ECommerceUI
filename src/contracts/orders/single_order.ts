@@ -5,4 +5,5 @@ export class Single_Order {
   createdDate: Date;
   description: string;
   orderCode: string;
+  completed: boolean;
 }

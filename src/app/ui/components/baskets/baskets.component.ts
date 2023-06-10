@@ -86,7 +86,6 @@ export class BasketsComponent implements OnInit {
     });
     this.baseStorageUrl = await this.fileService.getBaseStorageUrl();
     this.state = this.basketItems.length ? true : false;
-    debugger;
     this.sumPrice = this.basketItems.reduce(
       (sum, bi) => sum + bi.price * bi.quantity,
       0

@@ -1,8 +1,9 @@
 import { Component, Inject, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { DeleteState } from '../delete-dialog/delete-dialog.component';
 import { BaseDialog } from '../base/base-dialog';
+
 declare var $: any;
+
 @Component({
   selector: 'app-basket-item-remove-dialog',
   templateUrl: './basket-item-remove-dialog.component.html',
