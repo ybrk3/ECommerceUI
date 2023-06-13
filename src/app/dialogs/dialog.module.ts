@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DeleteDialogComponent } from './delete-dialog/delete-dialog.component';
-import { FileUploadDialogComponent } from './file-upload-dialog/file-upload-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
 import { UploadPhotoDialogComponent } from './upload-photo-dialog/upload-photo-dialog.component';
 import { FileUploadModule } from 'src/services/common/file-upload/file-upload.module';
@@ -14,6 +13,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CompleteOrderDialogComponent } from './complete-order-dialog/complete-order-dialog.component';
+import { AuthorizeMenuDialogComponent } from './authorize-menu-dialog/authorize-menu-dialog.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +23,7 @@ import { CompleteOrderDialogComponent } from './complete-order-dialog/complete-o
     ShoppingCompleteDialogComponent,
     OrderDetailDialogComponent,
     CompleteOrderDialogComponent,
+    AuthorizeMenuDialogComponent,
   ],
   imports: [
     CommonModule,

@@ -4,6 +4,7 @@ import { ProductsModule } from './products/products.module';
 import { CustomersModule } from './customers/customers.module';
 import { OrdersModule } from './orders/orders.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { AuthorizeMenuModule } from './authorize-menu/authorize-menu.module';
 
 @NgModule({
   declarations: [],
@@ -13,6 +14,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     CustomersModule,
     OrdersModule,
     DashboardModule,
+    AuthorizeMenuModule,
   ],
 })
 export class ComponentsModule {}
