@@ -1,0 +1,21 @@
+<form [formGroup]="frm" (ngSubmit)="create()">
+  <mat-form-field appearance="fill" class="role-input">
+    <mat-label>Product Name</mat-label>
+    <input matInput formControlName="productName" />
+  </mat-form-field>
+  <br />
+  <mat-form-field appearance="fill" class="role-input">
+    <mat-label>Stock</mat-label>
+    <input matInput type="number" min="0" value="0" formControlName="stock" />
+  </mat-form-field>
+  <br />
+  <mat-form-field appearance="fill" class="role-input">
+    <mat-label>Price</mat-label>
+    <input matInput type="number" min="0" value="0" formControlName="price" />
+  </mat-form-field>
+  <br />
+
+  <button mat-raised-button class="create-btn" type="submit" color="primary">
+    Create Product
+  </button>
+</form>

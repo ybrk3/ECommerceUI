@@ -39,7 +39,6 @@ export class AuthorizeMenuComponent implements OnInit {
   hasChild = (_: number, menu: ITreeMenu) => menu.actions?.length > 0;
 
   authorize(actionCode: string, name: string) {
-    debugger;
     this.dialogService.openDialog({
       component: AuthorizeMenuDialogComponent,
       options: { width: '750px' },
