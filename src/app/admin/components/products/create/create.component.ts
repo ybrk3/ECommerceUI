@@ -14,7 +14,7 @@ import { ProductService } from 'src/services/common/models/product.service';
   templateUrl: './create.component.html',
   styleUrls: ['./create.component.css'],
 })
-export class CreateComponent implements OnInit {
+export class CreateComponent {
   frm: FormGroup;
 
   //Event to refresh the product list
@@ -39,8 +39,6 @@ export class CreateComponent implements OnInit {
       price: ['', [Validators.required, Validators.min(0)]],
     });
   }
-
-  ngOnInit(): void {}
 
   create() {
     let create_Product: Create_Product = new Create_Product();

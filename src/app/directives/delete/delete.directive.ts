@@ -9,7 +9,6 @@ import {
   Renderer2,
 } from '@angular/core';
 
-import { MatDialog } from '@angular/material/dialog';
 import {
   DeleteDialogComponent,
   DeleteState,
@@ -75,11 +74,16 @@ export class DeleteDirective {
             700,
             () => {
               this.onDelete.emit();
-              this.alertify.message('Successfully Deleted!', {
-                dismissOthers: true,
-                messageType: MessageType.Success,
-                position: Position.TopRight,
-              });
+              this.alertify.message(
+                `${
+                  this.controller == 'Roles' ? 'Role' : 'Product'
+                } Successfully Deleted!`,
+                {
+                  dismissOthers: true,
+                  messageType: MessageType.Success,
+                  position: Position.TopRight,
+                }
+              );
             }
           );
         },

@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { ListComponent } from './list/list.component';
-import { Create_Product } from 'src/contracts/create_product';
+import { List_Role } from 'src/contracts/roles/list_role';
 
 @Component({
   selector: 'app-role',
@@ -9,7 +9,7 @@ import { Create_Product } from 'src/contracts/create_product';
 })
 export class RoleComponent {
   @ViewChild(ListComponent) listComponents: ListComponent;
-  createdProduct(create_Product: Create_Product) {
-    this.listComponents.getProducts();
+  createdRole(create_Role: List_Role) {
+    this.listComponents.getRoles();
   }
 }

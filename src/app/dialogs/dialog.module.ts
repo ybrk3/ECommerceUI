@@ -14,6 +14,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { CompleteOrderDialogComponent } from './complete-order-dialog/complete-order-dialog.component';
 import { AuthorizeMenuDialogComponent } from './authorize-menu-dialog/authorize-menu-dialog.component';
+import { MatBadgeModule } from '@angular/material/badge';
+import { MatListModule } from '@angular/material/list';
 
 @NgModule({
   declarations: [
@@ -34,6 +36,8 @@ import { AuthorizeMenuDialogComponent } from './authorize-menu-dialog/authorize-
     MatTableModule,
     MatCheckboxModule,
     MatToolbarModule,
+    MatBadgeModule,
+    MatListModule,
   ],
 })
 export class DialogModule {}

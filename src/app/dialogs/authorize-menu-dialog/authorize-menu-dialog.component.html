@@ -1,12 +1,34 @@
-<div>
-  <h1 mat-dialog-title>Auhorization for "{{ data.name }}"</h1>
+<h1
+  mat-dialog-title
+  matBadge="{{ rolesComponent.selectedOptions.selected.length }}/{{
+    roleDatas.totalRolesCount
+  }}"
+  matBadgeOverlap="false"
+>
+  Auhorization for "{{ data.name }}"
+</h1>
 
-  <div mat-dialog-content>
-    <p>Are you sure to authorize the user?</p>
-  </div>
+<div mat-dialog-content>
+  <p>Are you sure to authorize the user?</p>
+</div>
 
-  <div mat-dialog-actions>
-    <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancel</button>
-    <button mat-button [mat-dialog-close]="data">Yes</button>
-  </div>
+<mat-selection-list #rolesComponent>
+  <mat-list-option
+    *ngFor="let role of listRoles"
+    selected="{{ role.selected }}"
+  >
+    {{ role.name }}
+  </mat-list-option>
+</mat-selection-list>
+
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancel</button>
+  <button
+    mat-button
+    [mat-dialog-close]="data"
+    style="color: green"
+    (click)="assignRoles(rolesComponent)"
+  >
+    Assign
+  </button>
 </div>

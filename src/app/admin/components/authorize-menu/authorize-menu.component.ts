@@ -28,6 +28,7 @@ export class AuthorizeMenuComponent implements OnInit {
           const actionTree: ITreeMenu = {
             name: a.definition,
             actionCode: a.actionCode,
+            menuName: m.menuName,
           };
           return actionTree;
         }),
@@ -38,11 +39,11 @@ export class AuthorizeMenuComponent implements OnInit {
 
   hasChild = (_: number, menu: ITreeMenu) => menu.actions?.length > 0;
 
-  authorize(actionCode: string, name: string) {
+  authorize(actionCode: string, name: string, menuName: string) {
     this.dialogService.openDialog({
       component: AuthorizeMenuDialogComponent,
       options: { width: '750px' },
-      data: { actionCode: actionCode, name: name },
+      data: { actionCode: actionCode, name: name, menuName: menuName },
       afterClosed: () => {},
     });
   }
@@ -52,4 +53,5 @@ interface ITreeMenu {
   name?: string;
   actions?: ITreeMenu[];
   actionCode?: string;
+  menuName?: string;
 }
