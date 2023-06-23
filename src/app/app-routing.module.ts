@@ -40,6 +40,14 @@ const routes: Routes = [
         canActivate: [AuthGuard],
       },
       {
+        path: 'users',
+        loadChildren: () =>
+          import('./admin/components/users/users.module').then(
+            (module) => module.UsersModule
+          ),
+        canActivate: [AuthGuard],
+      },
+      {
         path: 'authorize-menu',
         loadChildren: () =>
           import(

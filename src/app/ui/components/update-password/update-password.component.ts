@@ -80,7 +80,7 @@ export class UpdatePasswordComponent implements OnInit {
       next: async (params) => {
         const userId: string = params['userId'];
         const resetToken: string = params['resetToken'];
-        await this.userService.UpdatePassword(
+        await this.userService.updatePassword(
           userId,
           resetToken,
           this.updatePasswordForm.controls['password'].value,

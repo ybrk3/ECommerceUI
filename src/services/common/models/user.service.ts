@@ -5,6 +5,8 @@ import { Create_User } from 'src/contracts/users/create_user';
 import { Observable, firstValueFrom } from 'rxjs';
 import { Action } from 'rxjs/internal/scheduler/Action';
 import { ProductsModule } from 'src/app/admin/components/products/products.module';
+import { ListUsers } from 'src/contracts/users/list_users';
+import { HttpErrorResponse } from '@angular/common/http';
 @Injectable({
   providedIn: 'root',
 })
@@ -27,7 +29,7 @@ export class UserService {
     And also "as Create_User* give consistency as return type to be Create_User*/
   }
 
-  async UpdatePassword(
+  async updatePassword(
     userId: string,
     resetToken: string,
     newPassword: string,
@@ -54,5 +56,65 @@ export class UserService {
       .catch((error) => errorCallBack(error));
 
     await promiseData;
+  }
+
+  async getUsers(
+    page: number,
+    size: number,
+    successCallBack?: any,
+    errorCallBack?: (errorMessage: string) => void
+  ): Promise<{ totalUsersCount: number; users: ListUsers[] }> {
+    const response: Observable<{
+      totalUsersCount: number;
+      users: ListUsers[];
+    }> = await this.httpClientService.get<{
+      totalUsersCount: number;
+      users: ListUsers[];
+    }>({
+      controller: this.controller,
+      queryString: `page=${page}&size=${size}`,
+    });
+    const promiseData = firstValueFrom(response);
+    promiseData
+      .then((value) => successCallBack())
+      .catch((error) => errorCallBack(error));
+    return await promiseData;
+  }
+
+  async assignRoleToUser(
+    userId: string,
+    roles: string[],
+    successCallBack?: () => void,
+    errorCallBack?: (errorMessage: string) => void
+  ) {
+    const observable: Observable<any> = this.httpClientService.post(
+      {
+        controller: this.controller,
+        action: 'assign-role-to-user',
+      },
+      { userId: userId, roles: roles }
+    );
+
+    const promiseData = firstValueFrom(observable);
+    promiseData.then(successCallBack).catch((error) => errorCallBack(error));
+
+    return await promiseData;
+  }
+
+  async getUserRoles(
+    userId: string,
+    successCallBack?: () => void,
+    errorCallBack?: (errorMessage: string) => void
+  ): Promise<string[]> {
+    const observable: Observable<{ userRoles: string[] }> =
+      this.httpClientService.get(
+        { controller: this.controller, action: 'get-user-roles' },
+        userId
+      );
+
+    const promiseData = firstValueFrom(observable);
+    promiseData.then(successCallBack).catch((error) => errorCallBack(error));
+
+    return (await promiseData).userRoles;
   }
 }
