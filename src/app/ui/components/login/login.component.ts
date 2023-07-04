@@ -31,8 +31,6 @@ export class LoginComponent implements OnInit {
         }
         case 'FACEBOOK': {
           authService.facebookLogin(user, () => {
-            console.log(user);
-
             this.authService.identityCheck(); //to set _isAuthenticated and that value is being used in app.component
             this.navigateToReturnUrl('');
           });

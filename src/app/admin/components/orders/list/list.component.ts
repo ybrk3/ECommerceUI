@@ -47,8 +47,8 @@ export class ListComponent implements OnInit {
         this.paginator ? this.paginator.pageIndex : 0,
         this.paginator ? this.paginator.pageSize : 5,
         () => {},
-        (errorMessage) =>
-          this.alertify.message(errorMessage, {
+        (errorMessage: any) =>
+          this.alertify.message(errorMessage.message, {
             dismissOthers: true,
             messageType: MessageType.Error,
             position: Position.TopRight,

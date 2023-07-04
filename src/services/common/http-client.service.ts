@@ -30,7 +30,12 @@ export class HttpClientService {
         requestParameter.queryString ? `?${requestParameter.queryString}` : ''
       }`;
 
-    return this.httpClient.get<T>(url, { headers: requestParameter.headers });
+    return this.httpClient.get<T>(url, {
+      headers: requestParameter.headers,
+      responseType: requestParameter.responseType as 'json',
+      /*we are getting response as a blob that's why added this parameter. Default is always "json". 
+      it doesnot accept any other type except for "json" that's why we added <as "json">*/
+    });
   }
 
   post<T>(
@@ -46,6 +51,9 @@ export class HttpClientService {
 
     return this.httpClient.post<T>(url, body, {
       headers: requestParameter.headers,
+      responseType: requestParameter.responseType as 'json',
+      /*we are getting response as a blob that's why added this parameter. Default is always "json". 
+      it doesnot accept any other type except for "json" that's why we added <as "json">*/
     });
   }
 
@@ -62,6 +70,9 @@ export class HttpClientService {
 
     return this.httpClient.put<T>(url, body, {
       headers: requestParameter.headers,
+      responseType: requestParameter.responseType as 'json',
+      /*we are getting response as a blob that's why added this parameter. Default is always "json". 
+      it doesnot accept any other type except for "json" that's why we added <as "json">*/
     });
   }
 
@@ -75,6 +86,9 @@ export class HttpClientService {
 
     return this.httpClient.delete<T>(url, {
       headers: requestParameter.headers,
+      responseType: requestParameter.responseType as 'json',
+      /*we are getting response as a blob that's why added this parameter. Default is always "json". 
+      it doesnot accept any other type except for "json" that's why we added <as "json">*/
     });
   }
 }
@@ -87,4 +101,6 @@ export class RequestParameter {
   headers?: HttpHeaders;
   baseUrl?: string;
   fullEndPoint?: string;
+
+  responseType?: string = 'json'; //we are getting response as a blob that's why added this parameter. Default is always "json".
 }

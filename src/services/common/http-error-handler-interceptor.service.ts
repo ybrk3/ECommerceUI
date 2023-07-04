@@ -33,34 +33,46 @@ export class HttpErrorHandlerInterceptorService implements HttpInterceptor {
       catchError((error) => {
         switch (error.status) {
           case HttpStatusCode.Unauthorized:
-            this.authService.refreshTokenLogin(
-              localStorage.getItem('refreshToken'),
-              (state) => {
-                if (!state) {
-                  const url: string = this.router.url;
-                  if (url === '/products') {
-                    this.toastrService.message(
-                      'Please login to add products to cart',
-                      'Please Login',
-                      {
-                        messageType: ToastrMessageType.Info,
-                        position: ToastrPosition.TopCenter,
-                      }
-                    );
-                  } else {
-                    this.toastrService.message(
-                      'You are not authorized!',
-                      'Unauthorized',
-                      {
-                        messageType: ToastrMessageType.Warning,
-                        position: ToastrPosition.TopFullWidth,
-                      }
-                    );
+            this.authService
+              .refreshTokenLogin(
+                localStorage.getItem('refreshToken'),
+                (state) => {
+                  if (!state) {
+                    const url: string = this.router.url;
+                    if (url === '/products') {
+                      this.toastrService.message(
+                        'Please login to add products to cart',
+                        'Please Login',
+                        {
+                          messageType: ToastrMessageType.Info,
+                          position: ToastrPosition.TopCenter,
+                        }
+                      );
+                      this.router.navigate(['/login']);
+                    } else {
+                      this.toastrService.message(
+                        'You are not authorized!',
+                        'Unauthorized',
+                        {
+                          messageType: ToastrMessageType.Warning,
+                          position: ToastrPosition.TopFullWidth,
+                        }
+                      );
+                      this.router.navigate(['/login']);
+                    }
                   }
-                  this.router.navigate(['/login']);
                 }
-              }
-            );
+              )
+              .then((data) => {
+                this.toastrService.message(
+                  'You are not authorized!',
+                  'Unauthorized',
+                  {
+                    messageType: ToastrMessageType.Warning,
+                    position: ToastrPosition.TopFullWidth,
+                  }
+                );
+              });
             break;
           case HttpStatusCode.InternalServerError:
             if (!HttpStatusCode.Unauthorized)

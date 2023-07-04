@@ -1,5 +1,19 @@
 <div class="mat-elevation-z8">
   <table mat-table [dataSource]="dataSource">
+    <ng-container matColumnDef="qrCode">
+      <th mat-header-cell *matHeaderCellDef>QR Code</th>
+      <td mat-cell *matCellDef="let element">
+        <img
+          src="../../../../../assets/qr_Code_Icon.png"
+          alt="qrCode"
+          height="25"
+          width="25"
+          style="cursor: pointer"
+          (click)="onShowQRCode(element.id)"
+        />
+      </td>
+    </ng-container>
+
     <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef>Product Name</th>
       <td mat-cell *matCellDef="let element">{{ element.name }}</td>
@@ -34,7 +48,7 @@
       <td mat-cell *matCellDef="let element">
         <img
           src="../../../../../assets/upload.png"
-          alt="edit"
+          alt="upload"
           height="25"
           width="25"
           style="cursor: pointer"

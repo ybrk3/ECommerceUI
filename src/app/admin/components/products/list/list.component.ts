@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
+import { QrcodeDialogComponent } from 'src/app/dialogs/qr-code-dialog/qr-code-dialog.component';
 import { UploadPhotoDialogComponent } from 'src/app/dialogs/upload-photo-dialog/upload-photo-dialog.component';
 import { List_Product } from 'src/contracts/list_product';
 import {
@@ -10,6 +11,7 @@ import {
 } from 'src/services/admin/alertify.service';
 import { DialogService } from 'src/services/common/dialog.service';
 import { ProductService } from 'src/services/common/models/product.service';
+import { QrCodeService } from 'src/services/common/qr-code.service';
 
 @Component({
   selector: 'app-list',
@@ -18,6 +20,7 @@ import { ProductService } from 'src/services/common/models/product.service';
 })
 export class ListComponent implements OnInit {
   displayedColumns: string[] = [
+    'qrCode',
     'name',
     'stock',
     'price',
@@ -34,7 +37,8 @@ export class ListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private alertify: AlertifyService,
-    private dialogService: DialogService
+    private dialogService: DialogService,
+    private qrCodeService: QrCodeService
   ) {}
 
   async ngOnInit() {
@@ -72,6 +76,13 @@ export class ListComponent implements OnInit {
       options: {
         width: '1250px',
       },
+    });
+  }
+
+  onShowQRCode(productId: string) {
+    this.dialogService.openDialog({
+      component: QrcodeDialogComponent,
+      data: productId,
     });
   }
 }
