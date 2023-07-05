@@ -17,6 +17,10 @@ import { AuthorizeMenuDialogComponent } from './authorize-menu-dialog/authorize-
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatListModule } from '@angular/material/list';
 import { AuthorizeUserDialogComponent } from './authorize-user-dialog/authorize-user-dialog.component';
+import { NgxScannerQrcodeModule } from 'ngx-scanner-qrcode';
+import { ScanQrCodeDialogComponent } from './scan-qr-code-dialog/scan-qr-code-dialog.component';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -28,6 +32,7 @@ import { AuthorizeUserDialogComponent } from './authorize-user-dialog/authorize-
     CompleteOrderDialogComponent,
     AuthorizeMenuDialogComponent,
     AuthorizeUserDialogComponent,
+    ScanQrCodeDialogComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +45,9 @@ import { AuthorizeUserDialogComponent } from './authorize-user-dialog/authorize-
     MatToolbarModule,
     MatBadgeModule,
     MatListModule,
+    NgxScannerQrcodeModule,
+    MatFormFieldModule,
+    MatInputModule,
   ],
 })
 export class DialogModule {}

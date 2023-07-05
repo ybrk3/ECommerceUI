@@ -1,0 +1,16 @@
+<h4><b>Please haul camera over to QR</b></h4>
+
+<mat-form-field appearance="fill" class="product-input">
+  <mat-label>Stock</mat-label>
+  <input matInput type="number" min="0" value="0" #txtStock />
+</mat-form-field>
+<ngx-scanner-qrcode
+  #scanner="scanner"
+  (event)="onScan($event)"
+></ngx-scanner-qrcode>
+
+<div mat-dialog-actions align="end">
+  <button mat-button [mat-dialog-close] cdkFocusInitial id="btnClose">
+    Close
+  </button>
+</div>

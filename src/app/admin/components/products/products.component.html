@@ -1,3 +1,14 @@
+<button
+  mat-raised-button
+  class="scan-btn"
+  type="submit"
+  color="basic"
+  (click)="showQRScanner()"
+>
+  Scan QR
+  <img class="scan-qr-icon" src="../../../../assets/scan-qr-code.png" />
+</button>
+
 <mat-drawer-container class="product-create">
   <mat-drawer mode="side" opened>
     <app-create (createdProduct)="createdProduct($event)"></app-create>

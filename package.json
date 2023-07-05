@@ -27,6 +27,7 @@
     "bootstrap": "^5.2.3",
     "jquery": "^3.6.4",
     "ngx-file-drop": "^15.0.0",
+    "ngx-scanner-qrcode": "^1.5.4",
     "ngx-spinner": "^0.0.0",
     "ngx-toastr": "^15.2.0",
     "rxjs": "~7.5.0",
