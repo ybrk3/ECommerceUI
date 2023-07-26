@@ -1,0 +1,4 @@
+{
+  "appService.defaultWebAppToDeploy": "/subscriptions/f14353d9-7c23-44f4-9685-f1092192da12/resourceGroups/ECommerceGroup/providers/Microsoft.Web/sites/ECommerceClient2023",
+  "appService.deploySubpath": "dist"
+}
