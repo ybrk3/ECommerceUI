@@ -5,6 +5,7 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { List_Product } from 'src/contracts/list_product';
 import { Observable, firstValueFrom } from 'rxjs';
 import { List_Product_Images } from 'src/contracts/list_product_images';
+import { ListResponseModel } from 'src/contracts/list_responseModel';
 
 @Injectable({
   providedIn: 'root',
@@ -55,6 +56,15 @@ export class ProductService {
         errorCallBack(errorResponse.message)
       );
     return await promiseData;
+  }
+  async getFilteredProducts(productName: string, page: number, size: number) {
+    const observable: Observable<any> = this.httpClientService.get({
+      controller: this.controller,
+      action: 'get-filtered-products',
+      queryString: `page=${page}&size=${size}&productName=${productName.toLocaleLowerCase()}`,
+    });
+    const promiseData = await firstValueFrom(observable);
+    return promiseData;
   }
 
   async delete(id: string) {

@@ -1,5 +1,4 @@
 .card {
-  margin-top: 10px;
   float: left;
   margin-left: 5px;
   border-color: green;
@@ -17,4 +16,7 @@
 .page-info {
   color: rgb(28, 41, 223);
   font-style: italic;
+}
+.search {
+  margin-top: 15px;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+
 import { Create_Product } from 'src/contracts/create_product';
-import { HttpClientService } from 'src/services/common/http-client.service';
 import { ListComponent } from './list/list.component';
 import { DialogService } from 'src/services/common/dialog.service';
 import { ScanQrCodeDialogComponent } from 'src/app/dialogs/scan-qr-code-dialog/scan-qr-code-dialog.component';
@@ -11,10 +11,9 @@ import { ScanQrCodeDialogComponent } from 'src/app/dialogs/scan-qr-code-dialog/s
   styleUrls: ['./products.component.css'],
 })
 export class ProductsComponent implements OnInit {
-  constructor(
-    private httpClientService: HttpClientService,
-    private dialogService: DialogService
-  ) {}
+  textFilter: string = '';
+
+  constructor(private dialogService: DialogService) {}
 
   ngOnInit(): void {}
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Add_Basket_Item } from 'src/contracts/basket/add_basket_item';
 import { List_Product } from 'src/contracts/list_product';
+import { ListResponseModel } from 'src/contracts/list_responseModel';
 import { FileService } from 'src/services/common/file.service';
 import { BasketService } from 'src/services/common/models/basket.service';
 import { ProductService } from 'src/services/common/models/product.service';
@@ -21,9 +22,12 @@ export class ListComponent implements OnInit {
   products: List_Product[];
   totalProductCount: number;
   totalPageCount: number;
-  pageSize: number = 3;
+  pageSize: number = 6;
   pageList: number[];
   baseStorageUrl: string;
+
+  //For search
+  textFilter: string = '';
 
   constructor(
     private productService: ProductService,
@@ -70,7 +74,14 @@ export class ListComponent implements OnInit {
       });
       this.totalProductCount = allProducts.totalProductCount;
       //Pagination
-      this.totalPageCount = Math.ceil(this.totalProductCount / this.pageSize);
+      const pagination = this.paginationPages(
+        this.totalProductCount,
+        this.pageSize,
+        this.currentPageNo
+      );
+      this.pageList = pagination.pageList;
+      this.totalPageCount = pagination.totalPageCount;
+      /*this.totalPageCount = Math.ceil(this.totalProductCount / this.pageSize);
 
       this.pageList = [];
 
@@ -83,7 +94,7 @@ export class ListComponent implements OnInit {
       } else {
         for (let i = this.currentPageNo - 2; i <= this.currentPageNo + 2; i++)
           this.pageList.push(i);
-      }
+      }*/
     });
   }
 
@@ -97,5 +108,79 @@ export class ListComponent implements OnInit {
         position: ToastrPosition.TopRight,
       });
     });
+  }
+
+  async getFilteredProducts(productName: string) {
+    this.activatedRoute.params.subscribe(async (params) => {
+      this.currentPageNo = parseInt(params['pageNo'] ?? 1);
+
+      const allProducts: {
+        totalFilteredProductCount: number;
+        result: ListResponseModel<List_Product>;
+      } = await this.productService.getFilteredProducts(
+        this.textFilter,
+        this.currentPageNo - 1,
+        this.pageSize
+      );
+      if (allProducts.result.data) {
+        this.products = allProducts.result.data.map<List_Product>((p) => {
+          const listProduct: List_Product = {
+            id: p.id,
+            name: p.name,
+            stock: p.stock,
+            price: p.price,
+            imagePath: p.images.length
+              ? p.images.find((p) => p.showcase).path
+              : '',
+            UpdatedDate: p.UpdatedDate,
+            createdDate: p.createdDate,
+          };
+          return listProduct;
+        });
+      } else this.products = null;
+      this.totalProductCount = allProducts.totalFilteredProductCount;
+      //Pagination
+      const pagination = this.paginationPages(
+        this.totalProductCount,
+        this.pageSize,
+        this.currentPageNo
+      );
+
+      this.pageList = pagination.pageList;
+      this.totalPageCount = pagination.totalPageCount;
+      /*this.totalPageCount = Math.ceil(this.totalProductCount / this.pageSize);
+
+      this.pageList = [];
+
+      if (this.currentPageNo - 2 <= 0) {
+        for (let i = 1; i <= 5; i++)
+          if (i <= this.totalPageCount) this.pageList.push(i);
+      } else if (this.currentPageNo + 3 > this.totalPageCount) {
+        for (let i = this.totalPageCount - 4; i <= this.totalPageCount; i++)
+          if (i > 0) this.pageList.push(i);
+      } else {
+        for (let i = this.currentPageNo - 2; i <= this.currentPageNo + 2; i++)
+          this.pageList.push(i);
+      }*/
+    });
+  }
+
+  private paginationPages(
+    totalProductCount: number,
+    pageSize: number,
+    currentPageNo: number
+  ): { pageList: number[]; totalPageCount: number } {
+    const totalPageCount: number = Math.ceil(totalProductCount / pageSize);
+    let pageList: number[] = [];
+    if (currentPageNo - 2 <= 0) {
+      for (let i = 1; i <= 5; i++) if (i <= totalPageCount) pageList.push(i);
+    } else if (currentPageNo + 3 > totalPageCount) {
+      for (let i = totalPageCount - 4; i <= totalPageCount; i++)
+        if (i > 0) pageList.push(i);
+    } else {
+      for (let i = currentPageNo - 2; i <= currentPageNo + 2; i++)
+        pageList.push(i);
+    }
+    return { pageList, totalPageCount };
   }
 }

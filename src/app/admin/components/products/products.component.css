@@ -6,10 +6,20 @@
 }
 .scan-btn {
   margin-left: 10px;
-  margin-top: 7.5px;
+
   margin-bottom: 5px;
 }
 .scan-qr-icon {
   height: 40px;
   margin: 5px;
+}
+.search-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+}
+
+.search-full-width {
+  width: 100%;
+  margin-left: 12px;
 }

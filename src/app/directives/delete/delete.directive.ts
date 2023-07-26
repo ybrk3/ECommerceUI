@@ -74,6 +74,7 @@ export class DeleteDirective {
             700,
             () => {
               this.onDelete.emit();
+
               this.alertify.message(
                 `${
                   this.controller == 'Roles' ? 'Role' : 'Product'

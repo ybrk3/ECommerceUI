@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { QrcodeDialogComponent } from 'src/app/dialogs/qr-code-dialog/qr-code-dialog.component';
@@ -11,7 +11,6 @@ import {
 } from 'src/services/admin/alertify.service';
 import { DialogService } from 'src/services/common/dialog.service';
 import { ProductService } from 'src/services/common/models/product.service';
-import { QrCodeService } from 'src/services/common/qr-code.service';
 
 @Component({
   selector: 'app-list',
@@ -19,6 +18,7 @@ import { QrCodeService } from 'src/services/common/qr-code.service';
   styleUrls: ['./list.component.css'],
 })
 export class ListComponent implements OnInit {
+  @Input() searchText: string;
   displayedColumns: string[] = [
     'qrCode',
     'name',
@@ -37,8 +37,7 @@ export class ListComponent implements OnInit {
   constructor(
     private productService: ProductService,
     private alertify: AlertifyService,
-    private dialogService: DialogService,
-    private qrCodeService: QrCodeService
+    private dialogService: DialogService
   ) {}
 
   async ngOnInit() {

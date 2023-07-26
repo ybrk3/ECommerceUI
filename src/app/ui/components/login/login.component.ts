@@ -6,7 +6,6 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from 'src/services/common/auth.service';
-import { UserService } from 'src/services/common/models/user.service';
 
 @Component({
   selector: 'app-login',
@@ -64,8 +63,8 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  public facebookLogin() {
+  async facebookLogin() {
     //Open facebook login window
-    this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
+    await this.socialAuthService.signIn(FacebookLoginProvider.PROVIDER_ID);
   }
 }

@@ -1,13 +1,30 @@
-<button
-  mat-raised-button
-  class="scan-btn"
-  type="submit"
-  color="basic"
-  (click)="showQRScanner()"
->
-  Scan QR
-  <img class="scan-qr-icon" src="../../../../assets/scan-qr-code.png" />
-</button>
+<mat-grid-list cols="4" rowHeight="100px">
+  <mat-grid-tile colspan="3" rowspan="1">
+    <mat-form-field class="search-full-width">
+      <mat-label>Search Product</mat-label>
+      <input
+        type="text"
+        name="textFilter"
+        [(ngModel)]="textFilter"
+        matInput
+        placeholder="Enter a Product Name"
+      />
+    </mat-form-field>
+  </mat-grid-tile>
+
+  <mat-grid-tile colspan="1" rowspan="1">
+    <button
+      mat-raised-button
+      class="scan-btn"
+      type="submit"
+      color="basic"
+      (click)="showQRScanner()"
+    >
+      Scan QR
+      <img class="scan-qr-icon" src="../../../../assets/scan-qr-code.png" />
+    </button>
+  </mat-grid-tile>
+</mat-grid-list>
 
 <mat-drawer-container class="product-create">
   <mat-drawer mode="side" opened>
@@ -15,6 +32,6 @@
   </mat-drawer>
 
   <mat-drawer-content>
-    <app-list></app-list>
+    <app-list [searchText]="textFilter"></app-list>
   </mat-drawer-content>
 </mat-drawer-container>

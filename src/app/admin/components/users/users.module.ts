@@ -27,6 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
     DeleteDirectiveModule,
     MatDividerModule,
     MatIconModule,
+    DeleteDirectiveModule,
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA],
 })
